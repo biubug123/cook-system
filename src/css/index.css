@@ -1,0 +1,47 @@
+@import '~antd/dist/antd.css';
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+#root{
+  height: 100%;
+}
+/*侧边按钮*/
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 22px 22px 22px 25px;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.trigger:hover {
+  background-color: #e9f7fe;
+}
+/*用户*/
+.user {
+  padding:0 1rem;
+  margin-right: 0.9rem;
+  float:right;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.user-icon {
+  padding:0 1.2rem;
+  float:right;
+  cursor: pointer;
+  transition: background-color .3s;
+}
+.user:hover,.user-icon:hover {
+  background-color: #e9f7fe;
+}
+
+.logo {
+  height: 32px;
+  /*background: rgba(255,255,255,.2);*/
+  color: #ff99ff;
+  font-size: 16px;
+  margin: 16px;
+  /*text-align: center;*/
+}
+
