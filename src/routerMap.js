@@ -19,7 +19,7 @@ export default class RouterMap extends React.Component{
 				<Switch>
                     <Route path={`/${projectName}/login`} component={(LoginPage)}/>
                     <Route path={`/${projectName}`} component={requireAuthentication(Container)}/>
-					{/*<Redirect to={`/${projectName}/analyze`}/>*/}
+					<Redirect to={`/${projectName}`}/>
 				</Switch>
 			</Router>
 		)

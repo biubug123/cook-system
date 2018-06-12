@@ -83,14 +83,14 @@ export default class Container extends React.Component {
                             <SubMenu
                                 title={<span><Icon type="layout" /><span>表格</span></span>}
                             >
-                                <Item key="Common"><Link to={`/${projectName}/table/common`}>常规</Link></Item>
-                                <Item key="Consult"><Link to={`/${projectName}/table/consult`}>资讯表</Link></Item>
-                                <Item key="Hunt"><Link to={`/${projectName}/table/hunt`}>求职表</Link></Item>
-                                <Item key="Recruit"><Link to={`/${projectName}/table/recruit`}>招聘表</Link></Item>
+                                <Item key="common"><Link to={`/${projectName}/table/common`}>常规</Link></Item>
+                                <Item key="consult"><Link to={`/${projectName}/table/consult`}>资讯表</Link></Item>
+                                <Item key="hunt"><Link to={`/${projectName}/table/hunt`}>求职表</Link></Item>
+                                <Item key="recruit"><Link to={`/${projectName}/table/recruit`}>招聘表</Link></Item>
                             </SubMenu>
                             {/*管理菜单集合*/}
                             <Item key="3">
-                                <Icon type="upload" />
+                                <Icon type="setting" />
                                 <span>管理</span>
                             </Item>
                         </Menu>
@@ -104,7 +104,7 @@ export default class Container extends React.Component {
                         {/*表格*/}
                         <Route path={`/${projectName}/table/common`} component={Common}/>
                         <Route path={`/${projectName}/table/consult`} component={Consult}/>
-                        <Route path={`/${projectName}/table/Hunt`} component={Hunt}/>
+                        <Route path={`/${projectName}/table/hunt`} component={Hunt}/>
                         <Route path={`/${projectName}/table/recruit`} component={Recruit}/>
                     </Layout>
             </Layout>
