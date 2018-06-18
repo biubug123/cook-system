@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dbf1c49d-662a-4a0e-8e1e-5c643ea66e1f" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/component/common/JobOrFoodTable.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/component/public/PublicBreadcrumb.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/container/manage/Administrator.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/container/manage/User.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/util/timeUtil.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/component/ContainerHeader.js" afterPath="$PROJECT_DIR$/src/component/ContainerHeader.js" />
+      <change beforePath="$PROJECT_DIR$/src/component/common/JobOrFoodTable.js" afterPath="$PROJECT_DIR$/src/component/table/EditableTable.js" />
+      <change beforePath="$PROJECT_DIR$/src/constant.js" afterPath="$PROJECT_DIR$/src/constant.js" />
       <change beforePath="$PROJECT_DIR$/src/container/Container.js" afterPath="$PROJECT_DIR$/src/container/Container.js" />
       <change beforePath="$PROJECT_DIR$/src/container/table/Common.js" afterPath="$PROJECT_DIR$/src/container/table/Common.js" />
-      <change beforePath="$PROJECT_DIR$/src/css/index.css" afterPath="$PROJECT_DIR$/src/css/index.css" />
-      <change beforePath="$PROJECT_DIR$/src/routerMap.js" afterPath="$PROJECT_DIR$/src/routerMap.js" />
+      <change beforePath="$PROJECT_DIR$/src/util/axios.js" afterPath="$PROJECT_DIR$/src/util/axios.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,56 +28,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Common.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/container/table/Common.js">
+      <file leaf-file-name="EditableTable.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/component/table/EditableTable.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
-              <caret line="36" column="54" lean-forward="false" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JobOrFoodTable.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/component/common/JobOrFoodTable.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="36" column="27" lean-forward="true" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
+            <state relative-caret-position="228">
+              <caret line="412" column="22" lean-forward="false" selection-start-line="412" selection-start-column="22" selection-end-line="412" selection-end-column="22" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
-                <element signature="e#1606#2279#0" expanded="false" />
-                <element signature="e#2314#2997#0" expanded="false" />
-                <element signature="e#3276#3749#0" expanded="false" />
-                <element signature="e#5174#5466#0" expanded="false" />
-                <element signature="e#5241#5310#0" expanded="false" />
-                <element signature="e#5505#5618#0" expanded="false" />
-                <element signature="e#5529#5611#0" expanded="false" />
-                <element signature="e#5645#5898#0" expanded="false" />
-                <element signature="e#5931#6409#0" expanded="false" />
-                <element signature="e#6013#6204#0" expanded="false" />
-                <element signature="e#6041#6193#0" expanded="false" />
-                <element signature="e#6444#6517#0" expanded="false" />
+                <element signature="e#2784#4887#0" expanded="false" />
+                <element signature="e#3452#4886#0" expanded="false" />
+                <element signature="e#4917#5888#0" expanded="false" />
+                <element signature="e#5461#5671#0" expanded="false" />
+                <element signature="e#5564#5670#0" expanded="false" />
+                <element signature="e#6604#7288#0" expanded="false" />
+                <element signature="e#8944#10705#0" expanded="false" />
+                <element signature="e#8968#9004#0" expanded="false" />
+                <element signature="e#9543#10696#0" expanded="false" />
+                <element signature="e#9908#10482#0" expanded="false" />
+                <element signature="e#10992#11081#0" expanded="false" />
+                <element signature="e#11015#11071#0" expanded="false" />
+                <element signature="e#12074#12156#0" expanded="false" />
+                <element signature="e#13513#13637#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginPage.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/container/LoginPage.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="5" column="48" lean-forward="true" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContainerHeader.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/component/ContainerHeader.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="33" column="28" lean-forward="false" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -91,40 +66,52 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>className</find>
-      <find>cook</find>
-      <find>link</find>
-      <find>axios</find>
-      <find>cook-sy</find>
-      <find>监视</find>
-      <find>工作台</find>
-      <find>dashbor</find>
-      <find>dashboard</find>
-      <find>work</find>
-      <find>.user</find>
-      <find>an`</find>
-      <find>Content</find>
-      <find>cols</find>
-      <find>click</find>
-      <find>0</find>
-      <find>职位名称</find>
-      <find>icon</find>
-      <find>global</find>
-      <find>updateValue</find>
-      <find>food</find>
-      <find>insertButtonDisAble</find>
-      <find>message</find>
-      <find>previewVisible</find>
-      <find>const { previewVisible, previewImage, fileList } = this.state;</find>
-      <find>handlePreview</find>
-      <find>handlePic</find>
-      <find>class</find>
+      <find>iconName</find>
       <find>保存</find>
-      <find>files</find>
+      <find>onUpdate</find>
+      <find>commonUploalLogoUrl</find>
+      <find>jobTab</find>
+      <find>common_job_tab</find>
+      <find>common_food_tab</find>
+      <find>JobOrFoodTable</find>
+      <find>editableTable</find>
+      <find>用户名ni</find>
+      <find>slince</find>
+      <find>qs</find>
+      <find>requestGet</find>
+      <find>TableChangeAndGetRequest</find>
+      <find>getUrl</find>
+      <find>updateColumnValue4</find>
+      <find>updateColumnValue1</find>
+      <find>updateColumnValue2</find>
+      <find>updateColumnValue3</find>
+      <find>input</find>
+      <find>onChange</find>
+      <find>加密</find>
+      <find>data</find>
+      <find>abstractPost</find>
+      <find>insertType</find>
+      <find>columnValue1</find>
+      <find>switch</find>
+      <find>创建</find>
+      <find>updateKey</find>
+      <find>服务器</find>
     </findStrings>
     <replaceStrings>
       <replace>updateColumnValue1</replace>
       <replace>insertButtonDisable</replace>
+      <replace>{}</replace>
+      <replace>{jobTab}</replace>
+      <replace>{foodTab}</replace>
+      <replace>jobTab</replace>
+      <replace>editable_job_tab</replace>
+      <replace>editable_food_tab</replace>
+      <replace>editableTable</replace>
+      <replace>EditableTable</replace>
+      <replace>GetRequest</replace>
+      <replace>columnValue1</replace>
+      <replace>columnValue2</replace>
+      <replace>columnValue3</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -150,9 +137,7 @@
         <option value="$PROJECT_DIR$/src/container/dashboard/chart/VistorVolumeChart.js" />
         <option value="$PROJECT_DIR$/src/container/dashboard/chart/VisitorVolumeChart.js" />
         <option value="$PROJECT_DIR$/src/css/Analyze.css" />
-        <option value="$PROJECT_DIR$/src/constant.js" />
         <option value="$PROJECT_DIR$/src/container/dashboard/chart/SimpleChart.js" />
-        <option value="$PROJECT_DIR$/src/util/axios.js" />
         <option value="$PROJECT_DIR$/src/css/login.css" />
         <option value="$PROJECT_DIR$/src/container/dashboard/Monitor.js" />
         <option value="$PROJECT_DIR$/src/container/dashboard/Work.js" />
@@ -167,11 +152,19 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/routerMap.js" />
         <option value="$PROJECT_DIR$/src/css/index.css" />
-        <option value="$PROJECT_DIR$/src/container/Container.js" />
         <option value="$PROJECT_DIR$/src/component/common/JobTable.js" />
-        <option value="$PROJECT_DIR$/src/container/table/Common.js" />
         <option value="$PROJECT_DIR$/src/component/ContainerHeader.js" />
+        <option value="$PROJECT_DIR$/src/util/axios.js" />
+        <option value="$PROJECT_DIR$/src/container/Container.js" />
+        <option value="$PROJECT_DIR$/src/constant.js" />
         <option value="$PROJECT_DIR$/src/component/common/JobOrFoodTable.js" />
+        <option value="$PROJECT_DIR$/src/component/common/EditableTable.js" />
+        <option value="$PROJECT_DIR$/src/component/public/PublicBreadcrumb.js" />
+        <option value="$PROJECT_DIR$/src/container/manage/Administrator.js" />
+        <option value="$PROJECT_DIR$/src/container/manage/User.js" />
+        <option value="$PROJECT_DIR$/src/container/table/Common.js" />
+        <option value="$PROJECT_DIR$/src/util/timeUtil.js" />
+        <option value="$PROJECT_DIR$/src/component/table/EditableTable.js" />
       </list>
     </option>
   </component>
@@ -187,9 +180,8 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="800" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -209,8 +201,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -239,7 +229,7 @@
               <item name="cook-system" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="table" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cook-system" type="b2602c69:ProjectViewProjectNode" />
@@ -258,18 +248,14 @@
               <item name="cook-system" type="b2602c69:ProjectViewProjectNode" />
               <item name="cook-system" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cook-system" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cook-system" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -282,19 +268,19 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/container/table" />
-      <recent name="$PROJECT_DIR$/src/css" />
-      <recent name="$PROJECT_DIR$/src/container" />
-      <recent name="$PROJECT_DIR$/src/container/dashboard/chart" />
-      <recent name="$PROJECT_DIR$/src/router" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/component" />
       <recent name="$PROJECT_DIR$/src/container/dashboard" />
       <recent name="$PROJECT_DIR$/src/util" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/css" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/container/manage" />
+      <recent name="$PROJECT_DIR$/src/container/table" />
+      <recent name="$PROJECT_DIR$/src/css" />
+      <recent name="$PROJECT_DIR$/src/container" />
+      <recent name="$PROJECT_DIR$/src/container/dashboard/chart" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -370,7 +356,17 @@
       <workItem from="1528708138687" duration="2210000" />
       <workItem from="1528767404218" duration="5302000" />
       <workItem from="1528783184416" duration="9189000" />
-      <workItem from="1528795491739" duration="4040000" />
+      <workItem from="1528795491739" duration="6474000" />
+      <workItem from="1528868915929" duration="8000" />
+      <workItem from="1528872109037" duration="3698000" />
+      <workItem from="1528877233049" duration="1551000" />
+      <workItem from="1528887877476" duration="972000" />
+      <workItem from="1528947994087" duration="5162000" />
+      <workItem from="1529120599421" duration="2607000" />
+      <workItem from="1529154989168" duration="4981000" />
+      <workItem from="1529199697285" duration="3619000" />
+      <workItem from="1529213812498" duration="9276000" />
+      <workItem from="1529289455668" duration="12238000" />
     </task>
     <servers />
   </component>
@@ -380,19 +376,20 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96524000" />
+    <option name="totallyTimeSpent" value="143070000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="800" extended-state="6" />
+    <frame x="0" y="0" width="1440" height="803" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21775898" sideWeight="0.49078014" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32043532" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32043532" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21775898" sideWeight="0.5092199" order="2" side_tool="true" content_ui="tabs" />
@@ -402,7 +399,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -439,34 +435,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/util/authenticated.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="32" column="31" lean-forward="false" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/container/Container.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/routerMap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/util/authenticated.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="32" column="31" lean-forward="false" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/container/Container.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -637,24 +605,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/util/authenticated.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/container/table/Recruit.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/constant.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="2" lean-forward="true" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -679,13 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/container/table/Hunt.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="27" column="39" lean-forward="false" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routerMap.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -707,63 +654,118 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/container/Container.js">
+    <entry file="file://$PROJECT_DIR$/src/container/LoginPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="62" column="25" lean-forward="true" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/util/axios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-460">
+          <caret line="17" column="38" lean-forward="false" selection-start-line="17" selection-start-column="25" selection-end-line="17" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/component/ContainerHeader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
+        <state relative-caret-position="-10">
           <caret line="33" column="28" lean-forward="false" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/constant.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="2" lean-forward="true" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/container/LoginPage.js">
+    <entry file="file://$PROJECT_DIR$/src/container/table/Hunt.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="48" lean-forward="true" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
-          <folding />
+        <state relative-caret-position="454">
+          <caret line="27" column="39" lean-forward="false" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/container/Container.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="88" column="8" lean-forward="false" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/public/PublicBreadcrumb.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="37" lean-forward="false" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/container/table/Common.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="36" column="54" lean-forward="false" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
+        <state relative-caret-position="627">
+          <caret line="33" column="54" lean-forward="false" selection-start-line="33" selection-start-column="54" selection-end-line="33" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/util/authenticated.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/util/axios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/util/timeUtil.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="42" lean-forward="false" selection-start-line="2" selection-start-column="42" selection-end-line="2" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/component/common/JobOrFoodTable.js">
+    <entry file="file://$PROJECT_DIR$/src/container/manage/Administrator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="36" column="27" lean-forward="true" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
+        <state relative-caret-position="237">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#26#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/container/manage/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="22" lean-forward="false" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#26#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/component/table/EditableTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="412" column="22" lean-forward="false" selection-start-line="412" selection-start-column="22" selection-end-line="412" selection-end-column="22" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#1606#2279#0" expanded="false" />
-            <element signature="e#2314#2997#0" expanded="false" />
-            <element signature="e#3276#3749#0" expanded="false" />
-            <element signature="e#5174#5466#0" expanded="false" />
-            <element signature="e#5241#5310#0" expanded="false" />
-            <element signature="e#5505#5618#0" expanded="false" />
-            <element signature="e#5529#5611#0" expanded="false" />
-            <element signature="e#5645#5898#0" expanded="false" />
-            <element signature="e#5931#6409#0" expanded="false" />
-            <element signature="e#6013#6204#0" expanded="false" />
-            <element signature="e#6041#6193#0" expanded="false" />
-            <element signature="e#6444#6517#0" expanded="false" />
+            <element signature="e#2784#4887#0" expanded="false" />
+            <element signature="e#3452#4886#0" expanded="false" />
+            <element signature="e#4917#5888#0" expanded="false" />
+            <element signature="e#5461#5671#0" expanded="false" />
+            <element signature="e#5564#5670#0" expanded="false" />
+            <element signature="e#6604#7288#0" expanded="false" />
+            <element signature="e#8944#10705#0" expanded="false" />
+            <element signature="e#8968#9004#0" expanded="false" />
+            <element signature="e#9543#10696#0" expanded="false" />
+            <element signature="e#9908#10482#0" expanded="false" />
+            <element signature="e#10992#11081#0" expanded="false" />
+            <element signature="e#11015#11071#0" expanded="false" />
+            <element signature="e#12074#12156#0" expanded="false" />
+            <element signature="e#13513#13637#0" expanded="false" />
           </folding>
         </state>
       </provider>
