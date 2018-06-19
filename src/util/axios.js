@@ -1,9 +1,13 @@
 import axios from 'axios'
 
 //普通请求用
+// axios.interceptors.request.use()
 export const commomAxios = axios.create({
     baseURL: 'http://localhost:8080',
-    headers:{'Authorization':"bearer "+sessionStorage.getItem("token")}
+    headers:{
+        // "Content-Type":"application/x-www-form-urlencoded",
+        'Authorization':"bearer "+sessionStorage.getItem("token")
+    }
 });
 
 //登录用
