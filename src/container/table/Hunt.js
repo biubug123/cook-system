@@ -15,44 +15,43 @@ const colums = [{
     title: `性别`,
     dataIndex: `sex`,
     key: `sex`
-}
-    ,{
-        title: `职位`,
-        dataIndex: `jobName`,
-        key: `jobName`
-    },{
-        title: `薪酬`,
-        dataIndex: `salary`,
-        key: `salary`
-    },{
-        title: `菜系`,
-        dataIndex: `foodTypeName`,
-        key: `foodTypeName`
-    },{
-        title: `学历`,
-        dataIndex: `education`,
-        key: `education`
-    },{
-        title: `发布时间`,
-        dataIndex: `huntDate`,
-        key: `huntDate`,
-        defaultSortOrder: 'descend',
-        sorter: (a, b) => a.hunDate - b.hunDate,
-        render: time => <div>{moment(time * 1000).format("YYYY-MM-DD")}</div>
-    },{
-        title: `工作经验`,
-        dataIndex: `workYear`,
-        key: `workYear`
-    },{
-        title: `工作地点`,
-        dataIndex: `workArea`,
-        key: `workArea`
-    },{
-        title: `浏览人数`,
-        dataIndex: `browseCount`,
-        key: `browseCount`,
-        sorter: (a, b) => a.browseCount - b.browseCount,
-    }]
+},{
+    title: `职位`,
+    dataIndex: `jobName`,
+    key: `jobName`
+},{
+    title: `薪酬`,
+    dataIndex: `salary`,
+    key: `salary`
+},{
+    title: `菜系`,
+    dataIndex: `foodType`,
+    key: `foodType`
+},{
+    title: `学历`,
+    dataIndex: `education`,
+    key: `education`
+},{
+    title: `发布时间`,
+    dataIndex: `huntDate`,
+    key: `huntDate`,
+    defaultSortOrder: 'descend',
+    sorter: (a, b) => a.hunDate - b.hunDate,
+    render: time => <div>{moment(time * 1000).format("YYYY-MM-DD")}</div>
+},{
+    title: `工作经验`,
+    dataIndex: `workYear`,
+    key: `workYear`
+},{
+    title: `工作地点`,
+    dataIndex: `workArea`,
+    key: `workArea`
+},{
+    title: `浏览人数`,
+    dataIndex: `browseCount`,
+    key: `browseCount`,
+    sorter: (a, b) => a.browseCount - b.browseCount,
+}]
 
 function onChange(sorter) {
     console.log('params', sorter);
@@ -85,7 +84,30 @@ class Hunt extends React.Component {
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log('Received values of form: ', values);
+            if(values.userName === undefined && values.workArea === undefined) {
+                fetch(`http://localhost:8080/system/listHunt`, {method: 'GET'})
+                    .then(response => response.json())
+                    .then(data =>{
+                        this.setState({ dataSource: data });
+                    })
+            } else if(values.userName !== undefined && values.workArea === undefined) {
+                fetch(`http://localhost:8080/system/listHunt?userName=${values.userName}`, {method: 'GET'})
+                    .then(response => response.json())
+                    .then(data =>{
+                        this.setState({ dataSource: data });
+                    })
+            }else if(values.userName === undefined && values.workArea !== undefined) {
+                fetch(`http://localhost:8080/system/listHunt?workArea=${values.workArea}`, {method: 'GET'})
+                    .then(response => response.json())
+                    .then(data =>{
+                        this.setState({ dataSource: data });
+                    })
+            }
+            fetch(`http://localhost:8080/system/listHunt?userName=${values.userName}&workArea=${values.workArea}`, {method: 'GET'})
+                .then(response => response.json())
+                .then(data =>{
+                    this.setState({ dataSource: data });
+                })
         });
     };
 
@@ -127,6 +149,10 @@ class Hunt extends React.Component {
         );
     }
 
+    handleReset = () => {
+        this.props.form.resetFields();
+    }
+
     render () {
         const { selectedRowkeys } = this.state;
 
@@ -153,8 +179,8 @@ class Hunt extends React.Component {
                     >
                         <Row gutter={24}>
                             <Col span={8} key={0}>
-                                <FormItem label={`岗位`}>
-                                    {getFieldDecorator(`field`, {
+                                <FormItem label={`求职者`}>
+                                    {getFieldDecorator(`userName`, {
                                         rules: [{
                                             required: false,
                                             message: 'Input something!',
@@ -165,8 +191,8 @@ class Hunt extends React.Component {
                                 </FormItem>
                             </Col>
                             <Col span={8} key={1}>
-                                <FormItem label={`发布单位`}>
-                                    {getFieldDecorator(`field-${1}`, {
+                                <FormItem label={`工作区域`}>
+                                    {getFieldDecorator(`workArea`, {
                                         rules: [{
                                             required: false,
                                             message: 'Input something!',
@@ -178,13 +204,10 @@ class Hunt extends React.Component {
 
                             </Col>
                             <Col span={6} style={{ textAlign: 'right', marginTop: '40px' }}>
-                                <Button type="primary" htmlType="submit">Search</Button>
-                                <Button style={{ marginLeft: 8 }}>
-                                    Clear
+                                <Button type="primary" htmlType="submit">查询</Button>
+                                <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
+                                    重置
                                 </Button>
-                                <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-                                    Collapse <Icon type={this.state.expand ? 'up' : 'down'} />
-                                </a>
                             </Col>
                         </Row>
                     </Form>

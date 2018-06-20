@@ -12,6 +12,8 @@ import Consult from './table/Consult'
 import Hunt from './table/Hunt'
 import Recruit from './table/Recruit'
 import global from '../constant';
+import VideoConsult from "./table/VideoArticleConsult";
+import ImageArticleConsult from "./table/ImageArticleConsult";
 
 const { Sider } = Layout;
 const {SubMenu,Item} = Menu;
@@ -84,7 +86,8 @@ export default class Container extends React.Component {
                                 title={<span><Icon type="layout" /><span>表格</span></span>}
                             >
                                 <Item key="Common"><Link to={`/${projectName}/table/common`}>常规</Link></Item>
-                                <Item key="Consult"><Link to={`/${projectName}/table/consult`}>资讯表</Link></Item>
+                                <Item key="imageArticleConsult"><Link to={`/${projectName}/table/imageArticleConsult`}>图文咨询表</Link></Item>
+                                <Item key="videoConsult"><Link to={`/${projectName}/table/videoConsult`}>视频咨询表</Link></Item>
                                 <Item key="Hunt"><Link to={`/${projectName}/table/hunt`}>求职表</Link></Item>
                                 <Item key="Recruit"><Link to={`/${projectName}/table/recruit`}>招聘表</Link></Item>
                             </SubMenu>
@@ -103,7 +106,8 @@ export default class Container extends React.Component {
                         <Route path={`/${projectName}/dashBoard/work`} component={Work}/>
                         {/*表格*/}
                         <Route path={`/${projectName}/table/common`} component={Common}/>
-                        <Route path={`/${projectName}/table/consult`} component={Consult}/>
+                        <Route path={`/${projectName}/table/imageArticleConsult`} component={ImageArticleConsult}/>
+                        <Route path={`/${projectName}/table/videoConsult`} component={VideoConsult}/>
                         <Route path={`/${projectName}/table/Hunt`} component={Hunt}/>
                         <Route path={`/${projectName}/table/recruit`} component={Recruit}/>
                     </Layout>
