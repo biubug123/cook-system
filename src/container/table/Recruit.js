@@ -88,48 +88,37 @@ class Recruit extends React.Component {
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log('Received values of form: ', values);
+            if(values.jobName === undefined && values.publisherName === undefined) {
+                fetch(`http://localhost:8080/system/listRecruit`, {method: 'GET'})
+                    .then(response => response.json())
+                    .then(data =>{
+                        this.setState({ dataSource: data });
+                    })
+            } else if(values.jobName !== undefined && values.publisherName === undefined) {
+                fetch(`http://localhost:8080/system/listRecruit?jobName=${values.jobName}`, {method: 'GET'})
+                    .then(response => response.json())
+                    .then(data =>{
+                        this.setState({ dataSource: data });
+                    })
+            }else if(values.jobName === undefined && values.publisherName !== undefined) {
+                fetch(`http://localhost:8080/system/listRecruit?publisherName=${values.publisherName}`, {method: 'GET'})
+                    .then(response => response.json())
+                    .then(data =>{
+                        this.setState({ dataSource: data });
+                    })
+            }
+            fetch(`http://localhost:8080/system/listRecruit?jobName=${values.jobName}&publisherName=${values.publisherName}`, {method: 'GET'})
+                .then(response => response.json())
+                .then(data =>{
+                    this.setState({ dataSource: data });
+                })
         });
     }
 
-
-    renderSearchForm() {
-        const { getFieldDecorator } = this.props.form;
-        return (
-            <Form onSubmit={this.handleSearch} layout="inline">
-                <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                    <Col md={8} sm={24}>
-                        <FormItem label="规则编号">
-                            {getFieldDecorator('no')(<Input placeholder="请输入" />)}
-                        </FormItem>
-                    </Col>
-                    <Col md={8} sm={24}>
-                        <FormItem label="使用状态">
-                            {getFieldDecorator('status')(
-                                <Select placeholder="请选择" style={{ width: '100%' }}>
-                                    <Option value="0">关闭</Option>
-                                    <Option value="1">运行中</Option>
-                                </Select>
-                            )}
-                        </FormItem>
-                    </Col>
-                    <Col md={8} sm={24}>
-            <span>
-              <Button type="primary" htmlType="submit">
-                查询
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-                重置
-              </Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
-            </span>
-                    </Col>
-                </Row>
-            </Form>
-        );
+    handleReset = () => {
+        this.props.form.resetFields();
     }
+
 
 
     render () {
@@ -157,7 +146,7 @@ class Recruit extends React.Component {
                         <Row gutter={24}>
                             <Col span={8} key={0}>
                                 <FormItem label={`岗位`}>
-                                    {getFieldDecorator(`field`, {
+                                    {getFieldDecorator(`jobName`, {
                                         rules: [{
                                             required: false,
                                             message: 'Input something!',
@@ -169,7 +158,7 @@ class Recruit extends React.Component {
                             </Col>
                             <Col span={8} key={1}>
                                 <FormItem label={`发布单位`}>
-                                    {getFieldDecorator(`field-${1}`, {
+                                    {getFieldDecorator(`publisherName`, {
                                         rules: [{
                                             required: false,
                                             message: 'Input something!',
@@ -181,13 +170,10 @@ class Recruit extends React.Component {
 
                             </Col>
                             <Col span={6} style={{ textAlign: 'right', marginTop: '40px' }}>
-                                <Button type="primary" htmlType="submit">Search</Button>
-                                <Button style={{ marginLeft: 8 }}>
-                                    Clear
+                                <Button type="primary" htmlType="submit">搜索</Button>
+                                <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
+                                    重置
                                 </Button>
-                                <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-                                    Collapse <Icon type={this.state.expand ? 'up' : 'down'} />
-                                </a>
                             </Col>
                         </Row>
                     </Form>
