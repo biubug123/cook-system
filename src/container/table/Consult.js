@@ -18,7 +18,6 @@ export default class Consult extends React.Component {
     componentDidMount () {
         // React.getDOMNode()
     };
-
     render () {
         let projectName = global.projectName;
         return (
