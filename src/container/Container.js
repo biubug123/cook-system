@@ -15,6 +15,7 @@ import global from '../constant';
 //manage
 import Administrator from './manage/Administrator'
 import User from './manage/User'
+import Authority from './manage/Authority'
 
 const { Sider } = Layout;
 const {SubMenu,Item} = Menu;
@@ -97,6 +98,7 @@ export default class Container extends React.Component {
                             >
                                 <Item key="user"><Link to={`/${projectName}/manage/user`}>用户</Link></Item>
                                 <Item key="admin"><Link to={`/${projectName}/manage/admin`}>管理员</Link></Item>
+                                <Item key="authority"><Link to={`/${projectName}/manage/authority`}>权限控制</Link></Item>
                             </SubMenu>
                         </Menu>
                     </Sider>
@@ -114,6 +116,7 @@ export default class Container extends React.Component {
                         {/*管理*/}
                         <Route path={`/${projectName}/manage/user`} component={User}/>
                         <Route path={`/${projectName}/manage/admin`} component={Administrator}/>
+                        <Route path={`/${projectName}/manage/authority`} component={Authority}/>
                     </Layout>
             </Layout>
         );

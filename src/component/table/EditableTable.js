@@ -22,8 +22,6 @@ export default class EditableTable extends React.Component {
         loading:false,
         //获取数据url
         getUrl:"",
-        //列
-        columns:[],
         //数据
         dataSource:[],
         //分页
@@ -43,6 +41,199 @@ export default class EditableTable extends React.Component {
     componentDidMount () {
         const {tableType} = this.props;
         //设置列
+        this.FirstGet(tableType);
+    };
+
+    //第一次获取数据,注入分页基本配置信息
+    FirstGet(tableType){
+        this.setState({
+            loading:true
+        })
+        let pagination = {};
+        let url;
+        switch (tableType){
+            case jobTab:url="/commonTableApi/jobTypeList";break;
+            case foodTab:url="/commonTableApi/foodTypeList";break;
+            case userTab:url="/managementApi/getUser";break;
+            case adminTab:url="/managementApi/getAdmin";break;
+            default:url="/managementApi/getAdmin";break;
+        }
+        //获取数据
+        commomAxios.get(url,{
+            params : { //请求参数
+                "pageNum" : 1
+            }
+        }).then((res)=>{
+            let data = res.data.data;
+            console.log(data);
+            //数据总数
+            pagination.total = data.total;
+            //每页条数
+            pagination.pageSize = data.pageSize;
+            //当前页数
+            pagination.current = data.pageNum;
+            pagination.lastPage = data.lastPage;
+            pagination.onChange=(page,pageSize)=>{
+                let pager = { ...this.state.pagination };
+                pager.current = page;
+                commomAxios.get(url,{
+                    params : { //请求参数
+                        "pageNum": page
+                    }
+                }).then((res)=>{
+                    let data = res.data.data;
+                    console.log(data);
+                    this.setState({
+                        dataSource: data.list,
+                        loading:false,
+                        pagination: pager,
+                    })
+
+                })
+            }
+
+            this.setState({
+                dataSource: data.list,
+                loading:false,
+                pagination,
+                getUrl:url
+            })
+
+        })
+
+
+    }
+    //二次以上获取数据
+    GetRequest = () => {
+        this.massageSuccess();
+        const {getUrl,insertType,updateKey} = this.state;
+        const pager = { ...this.state.pagination };
+        let pageNum = pager.current;
+        let lastNum = pager.lastPage;
+
+        commomAxios.get(getUrl,{
+            params : { //请求参数
+                "pageNum" : pageNum
+            }
+        }).then((res)=>{
+            let data = res.data.data;
+            //当前用户在最后一页，用户删除后最后一页发生变化；用户新增需跳到最后一页
+            if(((data.lastPage!==lastNum)&&(pageNum===lastNum))||(insertType===1)){
+                pager.current = data.lastPage;
+            }else if(updateKey!==disInputStatus){
+                pager.current = 1
+            }
+            console.log(data);
+            this.setState({
+                updateData:[null,null,null],
+                dataSource: data.list,
+                loading:false,
+                insertType:0,
+                insertButtonDisable:false,
+                visible: false,
+                pagination:pager,
+                updateKey:disInputStatus
+            })
+
+        })
+    }
+
+    //post公用方法
+    abstractPost=(url,data)=>{
+        commomAxios.post(url,qs.stringify(data)).then((res)=>{
+            console.log(res);
+            //刷新table
+            this.GetRequest();
+        })
+    }
+
+
+
+    //修改按钮
+    handleUpdate=(record)=>{
+        this.setState({
+            updateKey:record.key,
+            insertButtonDisable:true
+        })
+    }
+    //确认保存(更新)
+    onUpdate=()=>{
+        const {tableType} = this.props;
+        const {updateKey,updateData} = this.state;
+        let data,url;
+        switch (tableType){
+            case jobTab:
+                url="/commonTableApi/updateJob";
+                data={"jobTypeId":updateKey,"jobName":updateData[0]}
+                break;
+            case foodTab:
+                url="/commonTableApi/updateFood";
+                data={"foodTypeId":updateKey,"foodTypeName":updateData[1]}
+                break;
+            case adminTab:
+                url="/managementApi/updateAdmin";
+                data={"sysUserId":updateKey,"roleName":updateData[0],"accountNum":updateData[1],"password":updateData[2]}
+                break;
+            default:url=null;break;
+        }
+        //判断是否有修改
+        if(updateData[0]!==null||updateData[1]!==null){
+            this.abstractPost(url,data);
+        }
+        //保存完后
+        this.handleCancel();
+
+
+    }
+    //取消按钮
+    handleCancel=()=>{
+        this.setState({
+            updateKey: disInputStatus,
+            insertData:[null,null,null],
+            insertButtonDisable:false,
+            insertType:0,
+        })
+    }
+    //确认删除
+    onDelete=(record)=>{
+        let uuid = record.key;
+        let data,url;
+        const {tableType} = this.props;
+        switch (tableType){
+            case jobTab:
+                url="/commonTableApi/deleteJob";
+                data={"jobTypeId":uuid}
+                break;
+            case foodTab:
+                url="/commonTableApi/deleteFood";
+                data={"foodTypeId":uuid}
+                break;
+            case adminTab:
+                url="/managementApi/deleteAdmin";
+                data={"sysUserId":uuid};
+                break;
+            default:url=null;break;
+        }
+        this.abstractPost(url,data);
+    }
+
+    massageSuccess() {
+        message.success("操作成功",2);
+    }
+
+
+    messageError() {
+        message.error("页面发送错误",2);
+    }
+
+
+
+
+
+    render () {
+        const {tableType} = this.props;
+        const {dataSource,loading,pagination,visible} = this.state;
+        let columns;
         const settingColumn = [{
             title: '设置',
             key: 'action',
@@ -91,7 +282,7 @@ export default class EditableTable extends React.Component {
                     <Input onChange={(e)=> {
                         updateData[0]=e.target.value;
                         this.setState({
-                            columnValue1: updateData,
+                            updateData: updateData,
                         })
                     }} prefix={<Icon type="team" style={{ fontSize: 13 }} />} placeholder="菜系名称" value={updateData[0]===null?text:updateData[0]}/>
                     :<span>{text}</span>)
@@ -100,7 +291,7 @@ export default class EditableTable extends React.Component {
             title: '图标',
             dataIndex: 'iconName',
             render: (text,record) => {
-                let {updateKey,updateData} = this.state;
+                let {updateKey} = this.state;
                 console.log(text);
                 //图片上传变化
                 const handlePic=(info)=>{
@@ -213,17 +404,14 @@ export default class EditableTable extends React.Component {
             render: (text,record) => {
                 //修改
                 return (<span>{timeUtil.formatDateTime(text)}</span>)
-        }},{
+            }},{
             title: '最后修改日期',
             width:"10rem",
             dataIndex: 'lastLoginDate',
             render: (text,record) => {
                 //修改
                 return (<span>{timeUtil.formatDateTime(text)}</span>)
-        }}];
-
-        //发起请求获取的数据
-        let columns;
+            }}];
         switch (tableType){
             case jobTab:columns=jobColumns.concat(settingColumn);break;
             case foodTab:columns=foodTypeColums.concat(settingColumn);break;
@@ -231,209 +419,6 @@ export default class EditableTable extends React.Component {
             case adminTab:columns=adminColumns.concat(settingColumn);break;
             default:columns=adminColumns.concat(settingColumn);break;
         }
-
-        this.FirstGet(tableType,columns);
-    };
-
-    //第一次获取数据
-    FirstGet(tableType,columns){
-        this.setState({
-            loading:true
-        })
-        let pagination = {};
-        let url;
-        switch (tableType){
-            case jobTab:url="/commonTableApi/jobTypeList";break;
-            case foodTab:url="/commonTableApi/foodTypeList";break;
-            case userTab:url="/managementApi/getUser";break;
-            case adminTab:url="/managementApi/getAdmin";break;
-            default:url="/managementApi/getAdmin";break;
-        }
-        //获取数据
-        commomAxios.get(url,{
-            params : { //请求参数
-                pageNum : 1
-            }
-        }).then((res)=>{
-            let data = res.data.data;
-            console.log(data);
-            //数据总数
-            pagination.total = data.total;
-            //每页条数
-            pagination.pageSize = data.pageSize;
-            //当前页数
-            pagination.current = data.pageNum;
-            pagination.lastPage = data.lastPage;
-            pagination.onChange=(page,pageSize)=>{
-                let pager = { ...this.state.pagination };
-                pager.current = page;
-                commomAxios.get(url,{
-                    params : { //请求参数
-                        pageNum : page
-                    }
-                }).then((res)=>{
-                    let data = res.data.data;
-                    console.log(data);
-                    this.setState({
-                        dataSource: data.list,
-                        loading:false,
-                        pagination: pager,
-                    })
-
-                })
-            }
-
-            this.setState({
-                columns: columns,
-                dataSource: data.list,
-                loading:false,
-                pagination,
-                getUrl:url
-            })
-
-        })
-
-
-    }
-    //二次以上获取数据
-    GetRequest = () => {
-        this.modalSuccess();
-        const {getUrl,insertType,updateKey} = this.state;
-        const pager = { ...this.state.pagination };
-        let pageNum = pager.current;
-        let lastNum = pager.lastPage;
-
-        commomAxios.get(getUrl,{
-            params : { //请求参数
-                pageNum : pageNum
-            }
-        }).then((res)=>{
-            let data = res.data.data;
-            //当前用户在最后一页，用户删除后最后一页发生变化；用户新增需跳到最后一页
-            if((data.lastPage!==lastNum)&&(pageNum===lastNum)||(insertType===1)){
-                pager.current = data.lastPage;
-            }else if(updateKey!==disInputStatus){
-                pager.current = 1
-            }
-            console.log(data);
-            this.setState({
-                updateData:[null,null,null],
-                dataSource: data.list,
-                loading:false,
-                insertType:0,
-                insertButtonDisable:false,
-                visible: false,
-                pagination:pager,
-                updateKey:disInputStatus
-            })
-
-        })
-    }
-
-    //post公用方法
-    abstractPost=(url,data)=>{
-        commomAxios.post(url,qs.stringify(data)).then((res)=>{
-            console.log(res);
-            //刷新table
-            this.GetRequest();
-        })
-    }
-
-
-
-    //修改按钮
-    handleUpdate=(record)=>{
-        this.setState({
-            updateKey:record.key,
-            insertButtonDisable:true
-        })
-    }
-    //确认保存(更新)
-    onUpdate=()=>{
-        const {tableType} = this.props;
-        const {updateKey,updateData} = this.state;
-        let data,url;
-        switch (tableType){
-            case jobTab:
-                url="/commonTableApi/updateJob";
-                data={"jobTypeId":updateKey,"jobName":updateData[0]}
-                break;
-            case foodTab:
-                url="/commonTableApi/updateFood";
-                data={"foodTypeId":updateKey,"foodTypeName":updateData[1]}
-                break;
-            case adminTab:
-                url="/managementApi/updateAdmin";
-                data={"sysUserId":updateKey,"roleName":updateData[0],"accountNum":updateData[1],"password":updateData[2]}
-                break;
-            default:url=null;break;
-        }
-        //判断是否有修改
-        if(updateData[0]!==null||updateData[1]!==null){
-            this.abstractPost(url,data);
-        }
-        //保存完后
-        this.handleCancel();
-
-
-    }
-    //取消按钮
-    handleCancel=()=>{
-        this.setState({
-            updateKey: disInputStatus,
-            insertData:[null,null,null],
-            insertButtonDisable:false,
-            insertType:0,
-        })
-    }
-    //确认删除
-    onDelete=(record)=>{
-        let uuid = record.key;
-        let data,url;
-        const {tableType} = this.props;
-        switch (tableType){
-            case jobTab:
-                url="/commonTableApi/deleteJob";
-                data={"jobTypeId":uuid}
-                break;
-            case foodTab:
-                url="/commonTableApi/deleteFood";
-                data={"foodTypeId":uuid}
-                break;
-            case adminTab:
-                url="/managementApi/deleteAdmin";
-                data={"sysUserId":uuid};
-                break;
-            default:url=null;break;
-        }
-        this.abstractPost(url,data);
-    }
-
-    modalSuccess() {
-        const modal = Modal.success({
-            title: '成功',
-            content: '操作执行成功',
-        });
-        setTimeout(() => modal.destroy(), 2000);
-    }
-
-
-    modalError() {
-        Modal.error({
-            title: '发生错误',
-            content: '页面发生了未知错误',
-            okText:'确认'
-        });
-    }
-
-
-
-
-
-    render () {
-        const {tableType} = this.props;
-        const {columns,dataSource,loading,pagination,visible} = this.state;
-
         //根据表格类型返回不一样的按钮
         let TabsButton=()=>{
             if(tableType===jobTab){
