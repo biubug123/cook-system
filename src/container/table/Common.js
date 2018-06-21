@@ -1,9 +1,11 @@
 import React from 'react';
-import {Layout,Breadcrumb} from 'antd';
-import {Link} from 'react-router-dom'
+import {Layout,Icon,Tabs} from 'antd';
+import EditableTable from '../../component/table/EditableTable'
+import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
 import global from '../../constant';
-const { Content } = Layout;
 
+const { Content } = Layout;
+const {TabPane} = Tabs;
 
 export default class Common extends React.Component {
 
@@ -12,23 +14,34 @@ export default class Common extends React.Component {
     };
 
     componentWillMount () {
-        // add event listeners (Flux Store, WebSocket, document, etc.)
+
     };
 
     componentDidMount () {
         // React.getDOMNode()
     };
 
+
     render () {
-        let projectName = global.projectName;
+
+        let jobTab = global.editable_job_tab;
+        let foodTab = global.editable_food_tab;
+
         return (
+
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff'}}>
-                <Breadcrumb>
-                    <Breadcrumb.Item><Link to={`/${projectName}`}>首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>表格</Breadcrumb.Item>
-                    <Breadcrumb.Item>常规</Breadcrumb.Item>
-                </Breadcrumb>
+                <PublicBreadcrumb menu="表格" item="常规"/>
+                <Tabs size="large" defaultActiveKey="1" style={{marginTop:'0.2rem'}}>
+                    <TabPane tab={<span><Icon type="user" />职位</span>} key="1">
+                        <EditableTable tableType={jobTab}/>
+                    </TabPane>
+                    <TabPane tab={<span><Icon type="profile" />菜系</span>} key="2">
+                        <EditableTable tableType={foodTab}/>
+                    </TabPane>
+                </Tabs>
+
             </Content>
         );
     }
 }
+

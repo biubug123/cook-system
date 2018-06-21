@@ -15,6 +15,12 @@ import global from '../constant';
 import VideoConsult from "./table/VideoArticleConsult";
 import ImageArticleConsult from "./table/ImageArticleConsult";
 
+//manage
+import Administrator from './manage/Administrator'
+import User from './manage/User'
+import Authority from './manage/Authority'
+
+
 const { Sider } = Layout;
 const {SubMenu,Item} = Menu;
 
@@ -85,17 +91,27 @@ export default class Container extends React.Component {
                             <SubMenu
                                 title={<span><Icon type="layout" /><span>表格</span></span>}
                             >
+
                                 <Item key="Common"><Link to={`/${projectName}/table/common`}>常规</Link></Item>
                                 <Item key="imageArticleConsult"><Link to={`/${projectName}/table/imageArticleConsult`}>图文咨询表</Link></Item>
                                 <Item key="videoConsult"><Link to={`/${projectName}/table/videoConsult`}>视频咨询表</Link></Item>
                                 <Item key="Hunt"><Link to={`/${projectName}/table/hunt`}>求职表</Link></Item>
                                 <Item key="Recruit"><Link to={`/${projectName}/table/recruit`}>招聘表</Link></Item>
+
+                                <Item key="common"><Link to={`/${projectName}/table/common`}>常规</Link></Item>
+                                <Item key="consult"><Link to={`/${projectName}/table/consult`}>资讯表</Link></Item>
+                                <Item key="hunt"><Link to={`/${projectName}/table/hunt`}>求职表</Link></Item>
+                                <Item key="recruit"><Link to={`/${projectName}/table/recruit`}>招聘表</Link></Item>
+
                             </SubMenu>
                             {/*管理菜单集合*/}
-                            <Item key="3">
-                                <Icon type="upload" />
-                                <span>管理</span>
-                            </Item>
+                            <SubMenu
+                                title={<span><Icon type="setting" /><span>管理</span></span>}
+                            >
+                                <Item key="user"><Link to={`/${projectName}/manage/user`}>用户</Link></Item>
+                                <Item key="admin"><Link to={`/${projectName}/manage/admin`}>管理员</Link></Item>
+                                <Item key="authority"><Link to={`/${projectName}/manage/authority`}>权限控制</Link></Item>
+                            </SubMenu>
                         </Menu>
                     </Sider>
                     <Layout>
@@ -106,10 +122,17 @@ export default class Container extends React.Component {
                         <Route path={`/${projectName}/dashBoard/work`} component={Work}/>
                         {/*表格*/}
                         <Route path={`/${projectName}/table/common`} component={Common}/>
+
                         <Route path={`/${projectName}/table/imageArticleConsult`} component={ImageArticleConsult}/>
                         <Route path={`/${projectName}/table/videoConsult`} component={VideoConsult}/>
-                        <Route path={`/${projectName}/table/Hunt`} component={Hunt}/>
+                        <Route path={`/${projectName}/table/consult`} component={Consult}/>
+                        <Route path={`/${projectName}/table/hunt`} component={Hunt}/>
+
                         <Route path={`/${projectName}/table/recruit`} component={Recruit}/>
+                        {/*管理*/}
+                        <Route path={`/${projectName}/manage/user`} component={User}/>
+                        <Route path={`/${projectName}/manage/admin`} component={Administrator}/>
+                        <Route path={`/${projectName}/manage/authority`} component={Authority}/>
                     </Layout>
             </Layout>
         );

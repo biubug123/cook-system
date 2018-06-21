@@ -29,7 +29,7 @@ export default class ContainerHeader extends React.Component {
                 <Menu.Divider />
                 <Menu.Divider />
                 <Menu.Item key="2">
-                    <i class="anticon anticon-logout"></i>
+                    <i className="anticon anticon-logout"></i>
                     <span>&nbsp;&nbsp;退出登录</span>
                 </Menu.Item>
             </Menu>
