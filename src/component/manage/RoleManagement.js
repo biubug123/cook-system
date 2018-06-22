@@ -13,7 +13,7 @@ export default class RoleManagement extends React.Component {
         loading:true,
         insertButtonDisable:false,
         modalResourceData:[],
-        modalTargetData:[],
+        modalTargetKey:[],
         //新增状态
         insertType:0,
         selectedKeys: [],
@@ -32,6 +32,7 @@ export default class RoleManagement extends React.Component {
                 updateKey:null,
                 loading:false,
                 visible: false,
+                modalResourceData:[]
             })
 
         })
@@ -47,7 +48,6 @@ export default class RoleManagement extends React.Component {
     //模态框确认
     handleOk = (e) => {
         let {modalResourceData,currentRoleId} = this.state;
-        console.log(this.state.modalResourceData);
         let url = "/managementApi/conRolePermission";
         let data = [];
         for(let i=0;i<modalResourceData.length;i++){
@@ -57,7 +57,7 @@ export default class RoleManagement extends React.Component {
             };
             data.push(newData);
         }
-        this.abstractPost(url,{"conRolePermission":JSON.stringify(data)});
+        this.abstractPost(url,{"conRolePermissionList":JSON.stringify(data)});
     }
     //模态框取消
     handleCancel = (e) => {
@@ -89,7 +89,8 @@ export default class RoleManagement extends React.Component {
     }
     //穿梭框点击切换
     handleChange = (nextTargetKeys, direction, moveKeys) => {
-        this.setState({ modalTargetData: nextTargetKeys });
+        console.log(nextTargetKeys);
+        this.setState({ modalTargetKey: nextTargetKeys });
 
     }
     //列删除
@@ -105,22 +106,22 @@ export default class RoleManagement extends React.Component {
             visible:true,
             currentRoleId:record.key
         });
-        //全部资源
-        commomAxios.get("/managementApi/getFilterResource",{params:{"roleId":record.key}}).then((res)=>{
-            this.setState({
-                modalResourceData:res.data.data
-            })
-        })
-        //该角色已选择资源列
         commomAxios.get("/managementApi/getResourceByRoleId",{params:{"roleId":record.key}}).then((res)=>{
             this.setState({
-                selectedKeys:res.data.data
+                modalTargetKey:res.data.data.map(item => item.key)
             })
-        })
+        }).then(commomAxios.get("/managementApi/getResources").then((res)=>{
+            setTimeout(()=>{
+                this.setState({
+                    modalResourceData:res.data.data
+                })},500)
+        }))
+
+
 
     }
     render () {
-        let {insertButtonDisable,data,roleData,updateKey,insertType,loading,modalResourceData,selectedKeys,modalTargetData} = this.state;
+        let {insertButtonDisable,data,roleData,updateKey,insertType,loading,modalResourceData,selectedKeys,modalTargetKey} = this.state;
         const roleColumns = [{
             title: '角色名称',
             dataIndex: 'name',
@@ -195,7 +196,7 @@ export default class RoleManagement extends React.Component {
                         listStyle={{width:'15.8rem',height:'20rem'}}
                         dataSource={modalResourceData}
                         titles={['可选的资源名称','已选的资源名称']}
-                        targetKeys={modalTargetData}
+                        targetKeys={modalTargetKey}
                         selectedKeys={selectedKeys}
                         onChange={this.handleChange}
                         onSelectChange= {this.handleSelectChange}

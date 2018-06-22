@@ -5,7 +5,6 @@ import axios from 'axios'
 export const commomAxios = axios.create({
     baseURL: 'http://localhost:8080',
     headers:{
-        // "Content-Type":"application/x-www-form-urlencoded",
         'Authorization':"bearer "+sessionStorage.getItem("token")
     }
 });

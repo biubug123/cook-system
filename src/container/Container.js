@@ -91,12 +91,11 @@ export default class Container extends React.Component {
                                 title={<span><Icon type="layout" /><span>表格</span></span>}
                             >
 
-                                <Item key="imageArticleConsult"><Link to={`/${projectName}/table/imageArticleConsult`}>图文咨询表</Link></Item>
-                                <Item key="videoConsult"><Link to={`/${projectName}/table/videoConsult`}>视频咨询表</Link></Item>
                                 <Item key="common"><Link to={`/${projectName}/table/common`}>常规</Link></Item>
                                 <Item key="hunt"><Link to={`/${projectName}/table/hunt`}>求职表</Link></Item>
                                 <Item key="recruit"><Link to={`/${projectName}/table/recruit`}>招聘表</Link></Item>
-
+                                <Item key="imageArticleConsult"><Link to={`/${projectName}/table/imageArticleConsult`}>图文咨询表</Link></Item>
+                                <Item key="videoConsult"><Link to={`/${projectName}/table/videoConsult`}>视频咨询表</Link></Item>
                             </SubMenu>
                             {/*管理菜单集合*/}
                             <SubMenu
