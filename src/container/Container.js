@@ -4,7 +4,7 @@ import {Route,Link} from 'react-router-dom'
 import ContainerHeader from '../component/ContainerHeader'
 //图表
 import Monitor from './dashboard/Monitor'
-import Work from './dashboard/Work'
+import Advertisement from './dashboard/Advertisement'
 import Analyze from './dashboard/Analyze'
 //table
 import Common from './table/Common'
@@ -84,7 +84,7 @@ export default class Container extends React.Component {
                             >
                                 <Item key="analyze"><Link to={`/${projectName}`}>分析页</Link></Item>
                                 <Item key="monitor"><Link to={`/${projectName}/dashBoard/monitor`}>监控页</Link></Item>
-                                <Item key="work"><Link to={`/${projectName}/dashBoard/work`}>工作台</Link></Item>
+                                <Item key="advertisement"><Link to={`/${projectName}/dashBoard/advertisement`}>广告管理</Link></Item>
                             </SubMenu>
                             {/*表格菜单集合*/}
                             <SubMenu
@@ -112,7 +112,7 @@ export default class Container extends React.Component {
                         {/*图表*/}
                         <Route exact path={`/${projectName}`} component={Analyze}/>
                         <Route path={`/${projectName}/dashBoard/monitor`} component={Monitor}/>
-                        <Route path={`/${projectName}/dashBoard/work`} component={Work}/>
+                        <Route path={`/${projectName}/dashBoard/advertisement`} component={Advertisement}/>
                         {/*表格*/}
                         <Route path={`/${projectName}/table/common`} component={Common}/>
                         <Route path={`/${projectName}/table/imageArticleConsult`} component={ImageArticleConsult}/>

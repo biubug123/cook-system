@@ -5,7 +5,7 @@ import global from '../../constant';
 const { Content } = Layout;
 
 
-export default class Work extends React.Component {
+export default class Advertisement extends React.Component {
 
     state={
 
@@ -26,7 +26,7 @@ export default class Work extends React.Component {
                 <Breadcrumb>
                     <Breadcrumb.Item><Link to={`/${projectName}`}>首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>图表</Breadcrumb.Item>
-                    <Breadcrumb.Item>工作台</Breadcrumb.Item>
+                    <Breadcrumb.Item>广告管理</Breadcrumb.Item>
                 </Breadcrumb>
             </Content>
         );
