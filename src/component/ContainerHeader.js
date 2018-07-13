@@ -1,6 +1,7 @@
 import React from 'react';
-import {Layout,Icon ,Avatar,Dropdown,Menu} from 'antd'
+import {Layout,Icon ,Avatar,Dropdown,Menu,Input} from 'antd'
 const {Header} = Layout;
+const Search = Input.Search;
 
 export default class ContainerHeader extends React.Component {
 
@@ -42,6 +43,7 @@ export default class ContainerHeader extends React.Component {
                     type={collapsed ? 'menu-unfold' : 'menu-fold'}
                     onClick={toggle}
                 />
+
                 <Dropdown overlay={menu} placement="bottomRight">
                     <div className="user">
                         <Avatar style={{backgroundColor: '#ff99ff'}} icon="user" />
@@ -49,7 +51,12 @@ export default class ContainerHeader extends React.Component {
                     </div>
                 </Dropdown>
                 <div className="user-icon">
-                    <Icon type="search" />
+                    <Search
+                        placeholder="input search text"
+                        onSearch={value => console.log(value)}
+                        enterButton
+                    />
+                    {/*<Icon type="search" />*/}
                 </div>
 
             </Header>

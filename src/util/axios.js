@@ -3,7 +3,7 @@ import axios from 'axios'
 //普通请求用
 // axios.interceptors.request.use()
 export const commomAxios = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: 'http://139.199.86.11:8080/cook',
     headers:{
         'Authorization':"bearer "+sessionStorage.getItem("token")
     }
