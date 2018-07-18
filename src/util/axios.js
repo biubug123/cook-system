@@ -1,9 +1,10 @@
 import axios from 'axios'
 
 //普通请求用
-// axios.interceptors.request.use()
+let url = "http://139.199.86.11:8080/cookSystem";
+// let url = "http://localhost:8080";
 export const commomAxios = axios.create({
-    baseURL: 'http://139.199.86.11:8080/cook',
+    baseURL: url,
     headers:{
         'Authorization':"bearer "+sessionStorage.getItem("token")
     }
@@ -11,7 +12,12 @@ export const commomAxios = axios.create({
 
 //登录用
 export const loginAxios = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: url,
     headers:{'Authorization':"Basic Y29vazpjb29rU2VjcmV0"}
 });
 
+//上传文件用
+export const fileAxios = axios.create({
+    baseURL: url,
+    headers:{'Authorization':"Basic Y29vazpjb29rU2VjcmV0","Content-Type": "multipart/form-data"}
+});

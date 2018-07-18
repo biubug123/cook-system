@@ -3,6 +3,8 @@ import { Layout, Breadcrumb, Table, Form, Row, Col, Select, Input, Button, Icon}
 import { Link } from 'react-router-dom'
 import global from "../../constant";
 import moment from 'moment';
+
+import {commomAxios} from '../../util/axios'
 const { Content } = Layout;
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -68,11 +70,10 @@ class Hunt extends React.Component {
         // add event listeners (Flux Store, WebSocket, document, etc.)
     };
 
-    componentDidMount () {
-        fetch(`http://localhost:8080/system/listHunt`, {method: 'GET'})
-            .then(response => response.json())
+    componentDidMount= ()=> {
+        commomAxios.get(`/system/listHunt`)
             .then(data =>{
-                this.setState({ dataSource: data });
+                this.setState({ dataSource: data.data });
             });
     };
 
@@ -85,28 +86,24 @@ class Hunt extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if(values.userName === undefined && values.workArea === undefined) {
-                fetch(`http://localhost:8080/system/listHunt`, {method: 'GET'})
-                    .then(response => response.json())
+                commomAxios.get(`/system/listHunt`)
                     .then(data =>{
-                        this.setState({ dataSource: data });
+                        this.setState({ dataSource: data.data });
                     })
             } else if(values.userName !== undefined && values.workArea === undefined) {
-                fetch(`http://localhost:8080/system/listHunt?userName=${values.userName}`, {method: 'GET'})
-                    .then(response => response.json())
+                commomAxios.get(`/system/listHunt?userName=${values.userName}`)
                     .then(data =>{
-                        this.setState({ dataSource: data });
+                        this.setState({ dataSource: data.data });
                     })
             }else if(values.userName === undefined && values.workArea !== undefined) {
-                fetch(`http://localhost:8080/system/listHunt?workArea=${values.workArea}`, {method: 'GET'})
-                    .then(response => response.json())
+                commomAxios.get(`/system/listHunt?workArea=${values.workArea}`)
                     .then(data =>{
-                        this.setState({ dataSource: data });
+                        this.setState({ dataSource: data.data });
                     })
             }
-            fetch(`http://localhost:8080/system/listHunt?userName=${values.userName}&workArea=${values.workArea}`, {method: 'GET'})
-                .then(response => response.json())
+            commomAxios.get(`/system/listHunt?userName=${values.userName}&workArea=${values.workArea}`)
                 .then(data =>{
-                    this.setState({ dataSource: data });
+                    this.setState({ dataSource: data.data });
                 })
         });
     };

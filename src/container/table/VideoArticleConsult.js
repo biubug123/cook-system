@@ -3,6 +3,7 @@ import { Layout, Breadcrumb, Table } from 'antd';
 import {Link} from 'react-router-dom'
 import global from '../../constant';
 import moment from 'moment';
+import {commomAxios} from '../../util/axios'
 const { Content } = Layout;
 
 
@@ -17,19 +18,17 @@ export default class VideoConsult extends React.Component {
         // add event listeners (Flux Store, WebSocket, document, etc.)
     };
 
-    componentDidMount () {
-        fetch("http://localhost:8080/system/listVideoArticle", {method: 'GET'})
-            .then(response => response.json())
+    componentDidMount =()=> {
+        commomAxios.get("/system/listVideoArticle")
             .then(data => {
-                this.setState({ videoData: data });
+                this.setState({ videoData: data.data });
             })
     };
 
     onExpand = (expanded, record) => {
-        fetch(`http://localhost:8080/system/listConsult?articleId=${record.id}&articleType=${1}`, {method: 'GET'})
-            .then(response => response.json())
+        commomAxios.get(`/system/listConsult?articleId=${record.id}&articleType=${1}`)
             .then(data => {
-                this.setState({ consultData: data });
+                this.setState({ consultData: data.data });
             })
     }
 

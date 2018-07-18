@@ -3,6 +3,7 @@ import { Layout, Breadcrumb, Table, Form, Row, Col, Select, Input, Button, Icon}
 import {Link} from 'react-router-dom'
 import global from "../../constant";
 import moment from 'moment';
+import {commomAxios} from '../../util/axios'
 const { Content } = Layout;
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -72,11 +73,11 @@ class Recruit extends React.Component {
     };
 
 
-    componentDidMount () {
-        fetch(`http://localhost:8080/system/listRecruit`, {method: 'GET'})
-            .then(response => response.json())
+    componentDidMount =()=> {
+        commomAxios.get(`/system/listRecruit`)
             .then(data =>{
-                this.setState({ dataSource: data });
+                console.log(data.data);
+                this.setState({ dataSource: data.data });
             });
     };
 
@@ -89,28 +90,24 @@ class Recruit extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if(values.jobName === undefined && values.publisherName === undefined) {
-                fetch(`http://localhost:8080/system/listRecruit`, {method: 'GET'})
-                    .then(response => response.json())
+                commomAxios.get(`/system/listRecruit`)
                     .then(data =>{
-                        this.setState({ dataSource: data });
+                        this.setState({ dataSource: data.data });
                     })
             } else if(values.jobName !== undefined && values.publisherName === undefined) {
-                fetch(`http://localhost:8080/system/listRecruit?jobName=${values.jobName}`, {method: 'GET'})
-                    .then(response => response.json())
+                commomAxios.get(`/system/listRecruit?jobName=${values.jobName}`, {method: 'GET'})
                     .then(data =>{
-                        this.setState({ dataSource: data });
+                        this.setState({ dataSource: data.data });
                     })
             }else if(values.jobName === undefined && values.publisherName !== undefined) {
-                fetch(`http://localhost:8080/system/listRecruit?publisherName=${values.publisherName}`, {method: 'GET'})
-                    .then(response => response.json())
+                commomAxios.get(`/system/listRecruit?publisherName=${values.publisherName}`, {method: 'GET'})
                     .then(data =>{
-                        this.setState({ dataSource: data });
+                        this.setState({ dataSource: data.data });
                     })
             }
-            fetch(`http://localhost:8080/system/listRecruit?jobName=${values.jobName}&publisherName=${values.publisherName}`, {method: 'GET'})
-                .then(response => response.json())
+            commomAxios.get(`/system/listRecruit?jobName=${values.jobName}&publisherName=${values.publisherName}`, {method: 'GET'})
                 .then(data =>{
-                    this.setState({ dataSource: data });
+                    this.setState({ dataSource: data.data });
                 })
         });
     }
@@ -132,7 +129,7 @@ class Recruit extends React.Component {
         let projectName = global.projectName;
         return (
 
-            <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 800 }}>
+            <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: '1050px' }}>
                 <Breadcrumb>
                     <Breadcrumb.Item><Link to={`/${projectName}`}>首页</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>表格</Breadcrumb.Item>
@@ -178,7 +175,7 @@ class Recruit extends React.Component {
                         </Row>
                     </Form>
                 </div>
-                <Table dataSource={this.state.dataSource}  expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>} columns={colums} rowSelection={rowSelection} />
+                <Table rowKey={record => record.id} dataSource={this.state.dataSource}  expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>} columns={colums} rowSelection={rowSelection} />
             </Content>
         );
     }

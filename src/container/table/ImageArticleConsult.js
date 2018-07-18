@@ -3,6 +3,7 @@ import { Layout, Breadcrumb, Table } from 'antd';
 import {Link} from 'react-router-dom'
 import global from '../../constant';
 import moment from 'moment';
+import {commomAxios} from '../../util/axios'
 const { Content } = Layout;
 
 
@@ -17,19 +18,16 @@ export default class ImageArticleConsult extends React.Component {
         // add event listeners (Flux Store, WebSocket, document, etc.)
     };
 
-    componentDidMount () {
-        fetch("http://localhost:8080/system/listImageArticle", {method: 'GET'})
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ imageArticleData: data });
+    componentDidMount =()=> {
+        commomAxios.get("/system/listImageArticle").then(data => {
+                this.setState({ imageArticleData: data.data });
             })
     };
 
     onExpand = (expanded, record) => {
-        fetch(`http://localhost:8080/system/listConsult?articleId=${record.id}&articleType=${0}`, {method: 'GET'})
-            .then(response => response.json())
+        commomAxios.get(`/system/listConsult?articleId=${record.id}&articleType=${0}`)
             .then(data => {
-                this.setState({consultData: data});
+                this.setState({consultData: data.data});
             })
     }
 
