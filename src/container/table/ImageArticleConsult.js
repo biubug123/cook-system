@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import global from '../../constant';
 import moment from 'moment';
 import {commomAxios} from '../../util/axios'
+import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
 const { Content } = Layout;
 
 
@@ -75,11 +76,7 @@ export default class ImageArticleConsult extends React.Component {
         let projectName = global.projectName;
         return (
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff'}}>
-                <Breadcrumb>
-                    <Breadcrumb.Item><Link to={`/${projectName}`}>首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>表格</Breadcrumb.Item>
-                    <Breadcrumb.Item>资讯</Breadcrumb.Item>
-                </Breadcrumb>
+                <PublicBreadcrumb menu="表格" item="图文"/>
                 <div style={{marginTop: '10px'}}>{nestedTable()}</div>
             </Content>
         );

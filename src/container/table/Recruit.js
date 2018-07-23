@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import global from "../../constant";
 import moment from 'moment';
 import {commomAxios} from '../../util/axios'
+import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
 const { Content } = Layout;
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -130,11 +131,7 @@ class Recruit extends React.Component {
         return (
 
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: '1050px' }}>
-                <Breadcrumb>
-                    <Breadcrumb.Item><Link to={`/${projectName}`}>首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>表格</Breadcrumb.Item>
-                    <Breadcrumb.Item>招聘</Breadcrumb.Item>
-                </Breadcrumb>
+                <PublicBreadcrumb menu="表格" item="招聘"/>
                 <div>
                     <Form
                         className="ant-advanced-search-form"

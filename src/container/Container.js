@@ -4,7 +4,7 @@ import {Route,Link} from 'react-router-dom'
 import ContainerHeader from '../component/ContainerHeader'
 //图表
 import Monitor from './dashboard/Monitor'
-import Advertisement from './dashboard/Advertisement'
+import Advertisement from './release/Advertisement'
 import Analyze from './dashboard/Analyze'
 //table
 import Common from './table/Common'
@@ -84,7 +84,6 @@ export default class Container extends React.Component {
                             >
                                 <Item key="analyze"><Link to={`/${projectName}`}>分析页</Link></Item>
                                 <Item key="monitor"><Link to={`/${projectName}/dashBoard/monitor`}>监控页</Link></Item>
-                                <Item key="advertisement"><Link to={`/${projectName}/dashBoard/advertisement`}>广告管理</Link></Item>
                             </SubMenu>
                             {/*表格菜单集合*/}
                             <SubMenu
@@ -97,6 +96,11 @@ export default class Container extends React.Component {
                                 <Item key="imageArticleConsult"><Link to={`/${projectName}/table/imageArticleConsult`}>图文咨询表</Link></Item>
                                 <Item key="videoConsult"><Link to={`/${projectName}/table/videoConsult`}>视频咨询表</Link></Item>
                             </SubMenu>
+                            <SubMenu
+                                title={<span><Icon type="setting" /><span>发布</span></span>}
+                            >
+                                <Item key="advertisement"><Link to={`/${projectName}/release/advertisement`}>广告管理</Link></Item>
+                            </SubMenu>
                             {/*管理菜单集合*/}
                             <SubMenu
                                 title={<span><Icon type="setting" /><span>管理</span></span>}
@@ -104,6 +108,7 @@ export default class Container extends React.Component {
                                 <Item key="user"><Link to={`/${projectName}/manage/user`}>用户</Link></Item>
                                 <Item key="admin"><Link to={`/${projectName}/manage/admin`}>管理员</Link></Item>
                                 <Item key="authority"><Link to={`/${projectName}/manage/authority`}>权限控制</Link></Item>
+
                             </SubMenu>
                         </Menu>
                     </Sider>
@@ -112,7 +117,6 @@ export default class Container extends React.Component {
                         {/*图表*/}
                         <Route exact path={`/${projectName}`} component={Analyze}/>
                         <Route path={`/${projectName}/dashBoard/monitor`} component={Monitor}/>
-                        <Route path={`/${projectName}/dashBoard/advertisement`} component={Advertisement}/>
                         {/*表格*/}
                         <Route path={`/${projectName}/table/common`} component={Common}/>
                         <Route path={`/${projectName}/table/imageArticleConsult`} component={ImageArticleConsult}/>
@@ -123,6 +127,8 @@ export default class Container extends React.Component {
                         <Route path={`/${projectName}/manage/user`} component={User}/>
                         <Route path={`/${projectName}/manage/admin`} component={Administrator}/>
                         <Route path={`/${projectName}/manage/authority`} component={Authority}/>
+                        {/*发布*/}
+                        <Route path={`/${projectName}/release/advertisement`} component={Advertisement}/>
                     </Layout>
             </Layout>
         );

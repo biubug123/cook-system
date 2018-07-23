@@ -1,9 +1,10 @@
 import React from 'react';
-import {Layout,Breadcrumb,Upload,message, Button, Icon,Modal,Input,Popconfirm,Cascader,Table,Tag,Divider,Row} from 'antd';
+import {Layout,Breadcrumb,Upload,message, Button, Icon,Modal,Input,Popconfirm,Cascader,Table,Tag,Divider,Row,Pagination} from 'antd';
 import {Link} from 'react-router-dom'
+import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
 import qs from 'qs';
 import global from '../../constant';
-import {commomAxios,fileAxios} from '../../util/axios'
+import {commomAxios,fileAxios,advertisementDomain} from '../../util/axios'
 import timeUtil from "../../util/timeUtil";
 
 
@@ -22,8 +23,15 @@ let disInputStatus = "02f-06d";
 export default class Advertisement extends React.Component {
 
     state={
+        //table的数据
         data:[],
+        //分页器
+        pagination:{currentPageNum:1},
+        //文件
         fileList:[],
+        //table加载
+        loading:true,
+        //模态框
         modalVisible: false,
         //模态框类型 0、图片 1、视频
         modalType:0,
@@ -31,6 +39,7 @@ export default class Advertisement extends React.Component {
         title:"",
         //描述
         description:"",
+        //城市选择列
         chooseCityList:[
             {
                 //省id
@@ -41,6 +50,7 @@ export default class Advertisement extends React.Component {
                 cityLabel:"",
             }
         ],
+        //所有省城市数据
         cityData:[],
 
         /*以下是update部分的state*/
@@ -50,7 +60,7 @@ export default class Advertisement extends React.Component {
         currentUpdateColumData:{},
         //添加城市所在的id号
         inputCityVisibleId: disInputStatus,
-        CityInputValue:""
+
     };
 
     componentWillMount () {
@@ -65,8 +75,21 @@ export default class Advertisement extends React.Component {
     };
 
     componentDidMount =()=> {
-        // eslint-disable-next-line
-            uploader = new AliyunUpload.Vod({
+        let {pagination}=this.state;
+        pagination.onChange=(page,pageSize)=> {
+            let pager = {...this.state.pagination};
+            pager.current = page;
+            commomAxios.get("/advertise/allAdvertisement/"+page).then((res) => {
+                let data = res.data.data;
+                this.setState({
+                    data: data.list,
+                    loading: false,
+                    pagination: pager,
+                })
+
+            })
+        }
+        uploader = new window.AliyunUpload.Vod({
             //分片大小默认1M，不能小于100K
             partSize: 1048576,
             //并行上传分片个数，默认5
@@ -100,6 +123,7 @@ export default class Advertisement extends React.Component {
                         videoId:uploadInfo.videoId,
                         title:videoInfo.Title,
                         description:videoInfo.Description,
+                        originVideoId:currentUpdateColumData.aliVideoId
                     }
                     //视频的更新
                     this.abstractPost("/advertise/updateVideoAdvertisement",data);
@@ -138,7 +162,7 @@ export default class Advertisement extends React.Component {
                 console.log("onUploadEnd: uploaded all the files");
             }
         });
-        // React.getDOMNode()
+
     };
     //获取stsToken
     getStsUpload=(type,uploadInfo)=>{
@@ -159,14 +183,25 @@ export default class Advertisement extends React.Component {
         })
 
     }
-
+    //操作后加载table数据
     requestGet=()=>{
-        commomAxios.get("/advertise/allAdvertisement").then((res)=>{
+        const {pagination}=this.state;
+        commomAxios.get("/advertise/allAdvertisement/"+pagination.currentPageNum).then((res)=>{
             console.log(res.data.data);
-            //恢复初始状态
+            let datas = res.data.data;
+            //数据总数
+            pagination.total = datas.total;
+            //每页条数
+            pagination.pageSize = datas.pageSize;
+            //当前页数
+            pagination.current = datas.pageNum;
+            pagination.lastPage = datas.lastPage;
+            // 恢复初始状态
             if(res.data.code===200){
                 this.setState({
-                    data:res.data.data,
+                    pagination,
+                    data:datas.list,
+                    loading: false,
                     fileList:[],
                     modalVisible: false,
                     //模态框类型 0、图片 1、视频
@@ -193,7 +228,6 @@ export default class Advertisement extends React.Component {
                     currentUpdateColumData:[],
                     //添加城市所在的id号
                     inputCityVisibleId: disInputStatus,
-                    CityInputValue:""
                 })
             }
         })
@@ -203,6 +237,7 @@ export default class Advertisement extends React.Component {
     abstractPost=(url,data)=>{
         commomAxios.post(url,qs.stringify(data)).then((res)=>{
             let data = res.data;
+            console.log(data);
             if(data.code === 200){
                 message.success("提交成功");
                 this.requestGet();
@@ -212,7 +247,7 @@ export default class Advertisement extends React.Component {
 
         })
     }
-    //基本的post方法
+    //基本的文件post方法
     abstractFilePost=(url,data)=>{
         fileAxios.post(url,data).then((res)=>{
             let data = res.data;
@@ -370,15 +405,18 @@ export default class Advertisement extends React.Component {
                 message.info("正在处理……");
                 message.info("开始视频上传……");
                 // 视频提交
-                this.startUploads(title,description);
+                this.videoAdvertisement();
             }
         }else {
+            message.info("正在处理……");
             //仅仅修改标题和信息，没有对视频和图片进行操作
             let data={
                 advertisementId:currentUpdateColumData.id,
                 title:title,
-                description:description
+                description:description,
+                originVideoId:currentUpdateColumData.aliVideoId
             }
+            console.log(data);
             this.abstractPost("/advertise/JustUpdateAdvertisementTitleAndDescription",data);
         }
 
@@ -386,15 +424,17 @@ export default class Advertisement extends React.Component {
     }
     //删除广告
     deleteAdvertisement=(record)=>{
-        this.abstractPost("/advertise/deleteAdvertisement",{advertisementId:record.id})
+        message.info("正在处理……");
+        this.abstractPost("/advertise/deleteAdvertisement",{"advertisementId":record.id,"imageUrl":record.imageUrl,"originVideoId":record.aliVideoId})
     }
     //删除城市
-    deleteCity=(item,advertisementId,e)=>{
+    deleteCity=(item,record,e)=>{
         e.preventDefault();
-        console.log(item);
         let data={
-            advertisementId:advertisementId,
-            cityCode:item.code
+            advertisementId:record.id,
+            cityCode:item.code,
+            originVideoId:record.aliVideoId,
+            originCityList:JSON.stringify(record.cityList)
         }
         confirm({
             title: '是否删除此条广告的城市',
@@ -402,6 +442,7 @@ export default class Advertisement extends React.Component {
             okText: '确认',
             cancelText: '取消',
             onOk:()=> {
+                message.info("正在处理……");
                 this.abstractPost("/advertise/deleteCity",data);
             },
             onCancel:()=> {},
@@ -409,13 +450,23 @@ export default class Advertisement extends React.Component {
 
     }
     //新增城市
-    insertCity=(e,advertisementId)=>{
-        let cityCode = e[1];
-        let data={
-            advertisementId:advertisementId,
-            cityCode:cityCode
+    insertCity=(e,record,select)=>{
+        console.log(e);
+        console.log(select);
+        if(select!=null){
+            message.info("正在提交……");
+            let newTag = select[0].label+select[1].label;
+            let cityCode = e[1];
+            let data={
+                advertisementId:record.id,
+                cityCode:cityCode,
+                originVideoId:record.aliVideoId,
+                originCityList:JSON.stringify(record.cityList),
+                newTag:newTag
+            }
+            this.abstractPost("/advertise/insertCity",data);
         }
-        this.abstractPost("/advertise/insertCity",data);
+
     }
     //修改按钮点击
     handleUpdate=(record)=>{
@@ -446,6 +497,7 @@ export default class Advertisement extends React.Component {
         data.append("file",this.state.fileList[0])
         data.append("title",title);
         data.append("description",description);
+        data.append("originImageUrl",currentUpdateColumData.imageUrl);
         if(isUpdateModal===0){
             data.append("provinceCityVo",JSON.stringify(chooseCityList));
             this.abstractFilePost("/advertise/publishImage",data);
@@ -460,7 +512,7 @@ export default class Advertisement extends React.Component {
 
     render () {
         let projectName = global.projectName;
-        const {fileList,modalVisible,title,description,cityData,modalType,chooseCityList,data,isUpdateModal} = this.state;
+        const {fileList,modalVisible,title,loading,pagination,description,cityData,modalType,chooseCityList,data,isUpdateModal} = this.state;
         //uoload上传属性
         const props = {
             onRemove: (file) => {
@@ -507,30 +559,30 @@ export default class Advertisement extends React.Component {
             title: '广告标题',
             dataIndex: 'title',
             key: 'title',
+            width:"10rem",
             render: text => <a>{text}</a>,
-        }, {
-            title: '广告描述',
-            dataIndex: 'description',
-            key: 'description',
         }, {
             title: '时间',
             dataIndex: 'duration',
             key: 'duration',
+            width:"6rem",
+            sorter: (a, b) => a.duration - b.duration,
             render: (text, record) => (
                 <span>{record.duration}{record.duration?"秒":""}</span>
             ),
         }, {
             title: '城市',
             key: 'cityList',
+            width:"18rem",
             render: (text, record) => {
                 let {inputCityVisibleId} = this.state;
                 const citysElements = [];
                 let colorIndex;
                 record.cityList.forEach((item, index) => {
                     colorIndex = Math.floor((Math.random()*10));
-                    citysElements.push(<Tag key={index} onClose={(e)=>{this.deleteCity(item,record.id,e)}} closable color={colors[colorIndex]}>{item.provinceName}{item.name}</Tag>)
+                    citysElements.push(<Tag key={index} onClose={(e)=>{this.deleteCity(item,record,e)}} closable color={colors[colorIndex]}>{item.provinceName}{item.name}</Tag>)
                 })
-                let cityInput = inputCityVisibleId === record.id? <Cascader placeholder="选择城市" key={record.id} options={cityData} size="small" onChange={(e,select)=>{this.insertCity(e,record.id)}}/>
+                let cityInput = inputCityVisibleId === record.id? <Cascader placeholder="选择城市" key={record.id} options={cityData} size="small" onChange={(e,select)=>{this.insertCity(e,record,select)}}/>
                     :<Tag key={record.id}
                     onClick={()=>this.setState({inputCityVisibleId:record.id})}
                     style={{ background: '#fff', borderStyle: 'dashed' }}
@@ -552,8 +604,8 @@ export default class Advertisement extends React.Component {
                 <div>
                     {
                         record.type===0?
-                            <img alt={record.title} src={"http://139.199.86.11:8080/testImage/"+record.imgUrl}></img>:
-                        <video width="320" height="240" controls>
+                            <img style={{width:"80%",height:"auto"}} alt={record.title} src={advertisementDomain+record.imgUrl}></img>:
+                        <video width="60%" height="20%" controls>
                             <source src={record.videoUrl}  type="video/mp4"/>
                         </video>
 
@@ -564,12 +616,15 @@ export default class Advertisement extends React.Component {
         },{
             title: '发布日期',
             dataIndex: 'publishDate',
+            width:"10rem",
+            sorter: (a, b) => a.publishDate - b.publishDate,
             render: (text,record) => {
                 //修改
                 return (<span>{timeUtil.formatDateTime(record.publishDate)}</span>)
         }},{
             title: '操作',
             key: 'action',
+            width:"8rem",
             render: (text, record) => (
                 <div>
                     <a onClick={()=>this.handleUpdate(record)}>修改</a>
@@ -583,24 +638,17 @@ export default class Advertisement extends React.Component {
         }];
 
 
-
-
-
         //城市集合遍历
         return (
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff'}}>
-                <Breadcrumb>
-                    <Breadcrumb.Item><Link to={`/${projectName}`}>首页</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>图表</Breadcrumb.Item>
-                    <Breadcrumb.Item>广告管理</Breadcrumb.Item>
-                </Breadcrumb>
+                <PublicBreadcrumb menu="发布" item="广告"/>
                 <div style={{margin:"0.5rem"}}>
                     {/*<Row justify="end">*/}
                         <Button type="primary" style={{marginRight:"0.5rem"}} onClick={()=>this.handleClick(0)}>发布图片广告</Button>
                         <Button type="primary" onClick={()=>this.handleClick(1)}>发布视频广告</Button>
                     {/*</Row>*/}
                 </div>
-                <Table columns={columns} rowKey={record => record.id} dataSource={data} />
+                <Table expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>} loading={loading} pagination={pagination}  columns={columns} rowKey={record => record.id} dataSource={data} />
                 {/*提交或修改的模态框*/}
                 <Modal
                     maskClosable={false}
@@ -621,7 +669,6 @@ export default class Advertisement extends React.Component {
                     </Upload>
                     {isUpdateModal===1?null:ChooseCitys}
                 </Modal>
-
             </Content>
         );
     }
