@@ -28,11 +28,17 @@ export default class RoleManagement extends React.Component {
             let data = res.data;
             this.setState({
                 data:data.data,
-                insertType:0,
-                updateKey:null,
                 loading:false,
-                visible: false,
-                modalResourceData:[]
+                insertButtonDisable:false,
+                modalResourceData:[],
+                modalTargetKey:[],
+                //新增状态
+                insertType:0,
+                selectedKeys: [],
+                visible:false,
+                roleData:null,
+                updateKey:null,
+                currentRoleId:null
             })
 
         })
@@ -187,13 +193,13 @@ export default class RoleManagement extends React.Component {
                     title="编辑角色资源授权"
                     visible={this.state.visible}
                     onOk={this.handleOk}
-                    width={600}
+                    width={800}
                     cancelText="取消"
                     okText="确定"
                     onCancel={this.handleCancel}
                 >
                     <Transfer
-                        listStyle={{width:'15.8rem',height:'20rem'}}
+                        listStyle={{width:'22rem',height:'20rem'}}
                         dataSource={modalResourceData}
                         titles={['可选的资源名称','已选的资源名称']}
                         targetKeys={modalTargetKey}
@@ -202,10 +208,11 @@ export default class RoleManagement extends React.Component {
                         onSelectChange= {this.handleSelectChange}
                         render={item => {
                             return(
-                                <div style={{float:"right"}}>
-                                    <div style={{fontSize:'18px',textAlign:'right'}}>{item.alias}</div>
-                                    <div style={{fontSize:'14px',color:'#999999',textAlign:'right'}}>{item.description}</div>
-                                </div>
+                                <span>
+                                    <span style={{fontSize:'14px'}}>{item.alias}</span>
+                                    <span>&nbsp;&nbsp;--&nbsp;&nbsp;</span>
+                                    <span style={{fontSize:'12px',color:'#999999'}}>{item.description}</span>
+                                </span>
                             )
                         }}
                     />

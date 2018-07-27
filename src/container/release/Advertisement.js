@@ -1,9 +1,7 @@
 import React from 'react';
-import {Layout,Breadcrumb,Upload,message, Button, Icon,Modal,Input,Popconfirm,Cascader,Table,Tag,Divider,Row,Pagination} from 'antd';
-import {Link} from 'react-router-dom'
+import {Layout,Upload,message, Button, Icon,Modal,Input,Popconfirm,Cascader,Table,Tag,Divider} from 'antd';
 import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
 import qs from 'qs';
-import global from '../../constant';
 import {commomAxios,fileAxios,advertisementDomain} from '../../util/axios'
 import timeUtil from "../../util/timeUtil";
 
@@ -297,7 +295,7 @@ export default class Advertisement extends React.Component {
             return;
         }
 
-        let data;
+        // let data;
         //新增模态框操作
         if(isUpdateModal===0){
             if(modalType===1){
@@ -511,7 +509,6 @@ export default class Advertisement extends React.Component {
     }
 
     render () {
-        let projectName = global.projectName;
         const {fileList,modalVisible,title,loading,pagination,description,cityData,modalType,chooseCityList,data,isUpdateModal} = this.state;
         //uoload上传属性
         const props = {

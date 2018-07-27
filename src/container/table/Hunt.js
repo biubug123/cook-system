@@ -1,7 +1,5 @@
 import React from 'react';
-import { Layout, Breadcrumb, Table, Form, Row, Col, Select, Input, Button, Icon} from 'antd'
-import { Link } from 'react-router-dom'
-import global from "../../constant";
+import { Layout, Table, Form, Row, Col, Select, Input, Button, Icon} from 'antd'
 import moment from 'moment';
 
 import {commomAxios} from '../../util/axios'
@@ -56,9 +54,7 @@ const colums = [{
     sorter: (a, b) => a.browseCount - b.browseCount,
 }]
 
-function onChange(sorter) {
-    console.log('params', sorter);
-}
+
 
 class Hunt extends React.Component {
 
@@ -160,7 +156,6 @@ class Hunt extends React.Component {
         };
         const { getFieldDecorator } = this.props.form;
 
-        let projectName = global.projectName;
 
         return (
 

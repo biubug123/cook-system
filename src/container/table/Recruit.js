@@ -1,13 +1,10 @@
 import React from 'react';
-import { Layout, Breadcrumb, Table, Form, Row, Col, Select, Input, Button, Icon} from 'antd'
-import {Link} from 'react-router-dom'
-import global from "../../constant";
+import { Layout, Table, Form, Row, Col, Input, Button} from 'antd'
 import moment from 'moment';
 import {commomAxios} from '../../util/axios'
 import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
 const { Content } = Layout;
 const FormItem = Form.Item;
-const { Option } = Select;
 
 
 const colums = [{
@@ -57,9 +54,7 @@ const colums = [{
     sorter: (a, b) => a.applyPeolpleNum - b.applyPeolpleNum,
 },]
 
-function onChange(sorter) {
-    console.log('params', sorter);
-}
+
 class Recruit extends React.Component {
 
     state={
@@ -127,7 +122,6 @@ class Recruit extends React.Component {
             onChange: this.onSelectChange,
         };
         const { getFieldDecorator } = this.props.form;
-        let projectName = global.projectName;
         return (
 
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: '1050px' }}>

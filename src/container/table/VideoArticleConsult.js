@@ -1,7 +1,5 @@
 import React from 'react';
-import { Layout, Breadcrumb, Table } from 'antd';
-import {Link} from 'react-router-dom'
-import global from '../../constant';
+import { Layout, Table } from 'antd';
 import moment from 'moment';
 import {commomAxios} from '../../util/axios'
 import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
@@ -20,7 +18,7 @@ export default class VideoConsult extends React.Component {
     };
 
     componentDidMount =()=> {
-        commomAxios.get("/system/listVideoArticle")
+        commomAxios.get("/videoArticle/listVideoArticle")
             .then(data => {
                 this.setState({ videoData: data.data });
             })
@@ -75,7 +73,6 @@ export default class VideoConsult extends React.Component {
         }
 
 
-        let projectName = global.projectName;
         return (
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff'}}>
                 <PublicBreadcrumb menu="表格" item="视频"/>

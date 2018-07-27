@@ -4,7 +4,6 @@ import {Route,Link} from 'react-router-dom'
 import ContainerHeader from '../component/ContainerHeader'
 //图表
 import Monitor from './dashboard/Monitor'
-import Advertisement from './release/Advertisement'
 import Analyze from './dashboard/Analyze'
 //table
 import Common from './table/Common'
@@ -13,11 +12,14 @@ import Recruit from './table/Recruit'
 import global from '../constant';
 import VideoConsult from "./table/VideoArticleConsult";
 import ImageArticleConsult from "./table/ImageArticleConsult";
-
+//发布
+import Advertisement from './release/Advertisement'
+import Information from "./release/Information";
 //manage
 import Administrator from './manage/Administrator'
 import User from './manage/User'
 import Authority from './manage/Authority'
+
 
 
 const { Sider } = Layout;
@@ -64,6 +66,113 @@ export default class Container extends React.Component {
 
     render () {
         let projectName= global.projectName;
+        let menuData=[{
+                "IconType":"anticon anticon-dashboard",
+                "menuLabel":"图表",
+                "Item": [{
+                    "ItemKey": "analyze",
+                    "url": `/${projectName}`,
+                    "label": "分析页",
+                    "component":Analyze
+                    },{
+                    "ItemKey": "monitor",
+                    "url": `/${projectName}/dashBoard/monitor`,
+                    "label": "监控页",
+                    "component":Monitor
+                }]
+            }, {
+                "IconType":"layout",
+                "menuLabel":"表格",
+                "Item": [{
+                    "ItemKey": "common",
+                    "url": `/${projectName}/table/common`,
+                    "label": "常规",
+                    "component":Common
+                },{
+                    "ItemKey": "hunt",
+                    "url": `/${projectName}/table/hunt`,
+                    "label": "求职",
+                    "component":Hunt
+                },{
+                    "ItemKey": "recruit",
+                    "url": `/${projectName}/table/recruit`,
+                    "label": "招聘",
+                    "component":Recruit
+                },{
+                    "ItemKey": "imageArticleConsult",
+                    "url": `/${projectName}/table/imageArticleConsult`,
+                    "label": "图文资讯",
+                    "component":ImageArticleConsult
+                },{
+                    "ItemKey": "videoConsult",
+                    "url": `/${projectName}/table/videoConsult`,
+                    "label": "视频资讯",
+                    "component":VideoConsult
+                }]
+            }, {
+                "IconType":"layout",
+                "menuLabel":"发布",
+                "Item": [{
+                    "ItemKey": "advertisement",
+                    "url": `/${projectName}/release/advertisement`,
+                    "label": "广告",
+                    "component":Advertisement
+                },{
+                    "ItemKey": "information",
+                    "url": `/${projectName}/release/information`,
+                    "label": "资讯",
+                    "component":Information
+                }]
+            },{
+            "IconType":"setting",
+            "menuLabel":"管理",
+            "Item": [{
+                "ItemKey": "user",
+                "url": `/${projectName}/manage/user`,
+                "label": "用户",
+                "component":User
+            },{
+                "ItemKey": "admin",
+                "url": `/${projectName}/manage/admin`,
+                "label": "管理员",
+                "component":Administrator
+            },{
+                "ItemKey": "authority",
+                "url": `/${projectName}/manage/authority`,
+                "label": "权限控制",
+                "component":Authority
+            }]
+        }
+
+        ];
+        let SubMenuMaps = menuData.map((item, index) => {
+            const menuItem=[];
+            item.Item.forEach((k, i) => {
+                menuItem.push(<Item key={k.ItemKey}><Link to={k.url}>{k.label}</Link></Item>)
+            })
+            return(
+                <SubMenu key={index}
+                    title={<span><Icon type={item.IconType} /><span>{item.menuLabel}</span></span>}
+                >
+                    {menuItem}
+                </SubMenu>
+            )
+        });
+        let RouterMaps = menuData.map((item, index) => {
+            const routerMap=[];
+            item.Item.forEach((k, i) => {
+                if(k.url===`/${projectName}`){
+                    routerMap.push(<Route key={k.url} exact path={k.url} component={k.component}/>)
+                }else {
+                    routerMap.push(<Route key={k.url} path={k.url} component={k.component}/>)
+                }
+
+            })
+            return(<div key={index}>
+                    {routerMap}
+                </div>
+            )
+        });
         return (
             // 主要布局
             <Layout style={{height:'100%'}}>
@@ -78,57 +187,12 @@ export default class Container extends React.Component {
                         {/*侧边栏菜单*/}
 
                         <Menu theme="dark" mode="inline" defaultSelectedKeys={[this.state.selectKey]}>
-                            {/*图表菜单集合*/}
-                            <SubMenu
-                                title={<span><Icon type="anticon anticon-dashboard" /><span>图表</span></span>}
-                            >
-                                <Item key="analyze"><Link to={`/${projectName}`}>分析页</Link></Item>
-                                <Item key="monitor"><Link to={`/${projectName}/dashBoard/monitor`}>监控页</Link></Item>
-                            </SubMenu>
-                            {/*表格菜单集合*/}
-                            <SubMenu
-                                title={<span><Icon type="layout" /><span>表格</span></span>}
-                            >
-
-                                <Item key="common"><Link to={`/${projectName}/table/common`}>常规</Link></Item>
-                                <Item key="hunt"><Link to={`/${projectName}/table/hunt`}>求职表</Link></Item>
-                                <Item key="recruit"><Link to={`/${projectName}/table/recruit`}>招聘表</Link></Item>
-                                <Item key="imageArticleConsult"><Link to={`/${projectName}/table/imageArticleConsult`}>图文咨询表</Link></Item>
-                                <Item key="videoConsult"><Link to={`/${projectName}/table/videoConsult`}>视频咨询表</Link></Item>
-                            </SubMenu>
-                            <SubMenu
-                                title={<span><Icon type="setting" /><span>发布</span></span>}
-                            >
-                                <Item key="advertisement"><Link to={`/${projectName}/release/advertisement`}>广告管理</Link></Item>
-                            </SubMenu>
-                            {/*管理菜单集合*/}
-                            <SubMenu
-                                title={<span><Icon type="setting" /><span>管理</span></span>}
-                            >
-                                <Item key="user"><Link to={`/${projectName}/manage/user`}>用户</Link></Item>
-                                <Item key="admin"><Link to={`/${projectName}/manage/admin`}>管理员</Link></Item>
-                                <Item key="authority"><Link to={`/${projectName}/manage/authority`}>权限控制</Link></Item>
-
-                            </SubMenu>
+                            {SubMenuMaps}
                         </Menu>
                     </Sider>
                     <Layout>
                         <ContainerHeader collapsed={this.state.collapsed} toggle={this.toggle}/>
-                        {/*图表*/}
-                        <Route exact path={`/${projectName}`} component={Analyze}/>
-                        <Route path={`/${projectName}/dashBoard/monitor`} component={Monitor}/>
-                        {/*表格*/}
-                        <Route path={`/${projectName}/table/common`} component={Common}/>
-                        <Route path={`/${projectName}/table/imageArticleConsult`} component={ImageArticleConsult}/>
-                        <Route path={`/${projectName}/table/videoConsult`} component={VideoConsult}/>
-                        <Route path={`/${projectName}/table/hunt`} component={Hunt}/>
-                        <Route path={`/${projectName}/table/recruit`} component={Recruit}/>
-                        {/*管理*/}
-                        <Route path={`/${projectName}/manage/user`} component={User}/>
-                        <Route path={`/${projectName}/manage/admin`} component={Administrator}/>
-                        <Route path={`/${projectName}/manage/authority`} component={Authority}/>
-                        {/*发布*/}
-                        <Route path={`/${projectName}/release/advertisement`} component={Advertisement}/>
+                        {RouterMaps}
                     </Layout>
             </Layout>
         );

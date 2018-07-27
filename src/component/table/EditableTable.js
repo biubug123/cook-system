@@ -1,9 +1,12 @@
 import React from 'react';
-import {Table,Divider,Icon,message,Input,Popconfirm,Button,Upload,Modal} from 'antd';
+import {Table,Divider,Icon,message,Input,Popconfirm,Button,Upload,Modal,Tag} from 'antd';
 import qs from 'qs';
 import timeUtil from '../../util/timeUtil'
 import global from '../../constant';
+import CommonMultiSelect from '../select/CommonMultiSelect'
+import CommonRoleSelect from '../../component/select/CommonRoleSelect'
 import {commomAxios} from '../../util/axios'
+
 
 //无更新状态默认值
 let disInputStatus = "02f-06d";
@@ -13,6 +16,7 @@ let userTab = global.editable_user_tab;
 let adminTab = global.editable_admin_tab;
 let commonUploalLogoUrl = global.common_uploalLogoUrl;
 let buttonValue;
+let colors = ["magenta","red","volcano","orange","gold","green","cyan","blue","geekblue","purple"];
 //1、列表 2、根据id删除 3、根据id更新,保持图片名不变
 export default class EditableTable extends React.Component {
 
@@ -32,24 +36,64 @@ export default class EditableTable extends React.Component {
         insertType:0,
         //修改标识
         updateKey:disInputStatus,
+        inputRoleUserId:disInputStatus,
         //修改的内容
         updateData:[null,null,null],
         //新增的内容
-        insertData:[]
+        insertData:[],
+
+        //角色需要的数据
+        roleSelectData:[],
     };
 
     componentDidMount () {
         const {tableType} = this.props;
+
         //设置列
         this.FirstGet(tableType);
+        //分页配置
+        this.setPagination();
     };
 
-    //第一次获取数据,注入分页基本配置信息
+    //分页配置
+    setPagination=()=>{
+        let {dataSource,getUrl} = this.state;
+        let {pagination} = this.state;
+        //数据总数
+        pagination.total = dataSource.total;
+        //每页条数
+        pagination.pageSize = dataSource.pageSize;
+        //当前页数
+        pagination.current = dataSource.pageNum;
+        pagination.lastPage = dataSource.lastPage;
+        pagination.onChange=(page,pageSize)=>{
+            let pager = { ...this.state.pagination };
+            pager.current = page;
+            commomAxios.get(getUrl,{
+                params : { //请求参数
+                    "pageNum": page
+                }
+            }).then((res)=>{
+                let data = res.data.data;
+                console.log(data);
+                this.setState({
+                    dataSource: data.list,
+                    loading:false,
+                    pagination: pager,
+                })
+
+            })
+        }
+        this.setState({
+            pagination
+        })
+    }
+
+    //第一次获取数据
     FirstGet(tableType){
         this.setState({
             loading:true
         })
-        let pagination = {};
         let url;
         switch (tableType){
             case jobTab:url="/commonTableApi/jobTypeList";break;
@@ -65,37 +109,9 @@ export default class EditableTable extends React.Component {
             }
         }).then((res)=>{
             let data = res.data.data;
-            console.log(data);
-            //数据总数
-            pagination.total = data.total;
-            //每页条数
-            pagination.pageSize = data.pageSize;
-            //当前页数
-            pagination.current = data.pageNum;
-            pagination.lastPage = data.lastPage;
-            pagination.onChange=(page,pageSize)=>{
-                let pager = { ...this.state.pagination };
-                pager.current = page;
-                commomAxios.get(url,{
-                    params : { //请求参数
-                        "pageNum": page
-                    }
-                }).then((res)=>{
-                    let data = res.data.data;
-                    console.log(data);
-                    this.setState({
-                        dataSource: data.list,
-                        loading:false,
-                        pagination: pager,
-                    })
-
-                })
-            }
-
             this.setState({
                 dataSource: data.list,
                 loading:false,
-                pagination,
                 getUrl:url
             })
 
@@ -105,7 +121,6 @@ export default class EditableTable extends React.Component {
     }
     //二次以上获取数据
     GetRequest = () => {
-        this.massageSuccess();
         const {getUrl,insertType,updateKey} = this.state;
         const pager = { ...this.state.pagination };
         let pageNum = pager.current;
@@ -140,8 +155,10 @@ export default class EditableTable extends React.Component {
 
     //post公用方法
     abstractPost=(url,data)=>{
+        message.info("开始提交……");
         commomAxios.post(url,qs.stringify(data)).then((res)=>{
             console.log(res);
+            this.massageSuccess();
             //刷新table
             this.GetRequest();
         })
@@ -172,7 +189,7 @@ export default class EditableTable extends React.Component {
                 break;
             case adminTab:
                 url="/managementApi/updateAdmin";
-                data={"sysUserId":updateKey,"roleName":updateData[0],"accountNum":updateData[1],"password":updateData[2]}
+                data={"sysUserId":updateKey,"accountNum":updateData[1],"password":updateData[2]}
                 break;
             default:url=null;break;
         }
@@ -224,6 +241,28 @@ export default class EditableTable extends React.Component {
 
     messageError() {
         message.error("页面发送错误",2);
+    }
+    //删除城市
+    deleteConUserRole=(item,record,e)=>{
+        
+        e.preventDefault();
+        console.log(item);
+        console.log(record);
+        let data={
+            userId:record.key,
+            roleId:item.id,
+        }
+        Modal.confirm({
+            title: '是否删除该管理员的角色',
+            content: '如果删除，管理员将无法使用该角色的权限',
+            okText: '确认',
+            cancelText: '取消',
+            onOk:()=> {
+                this.abstractPost("/managementApi/deleteConUserRole",data);
+            },
+            onCancel:()=> {},
+        });
+
     }
 
 
@@ -351,19 +390,31 @@ export default class EditableTable extends React.Component {
             }}];
         const adminColumns = [{
             title: '角色名称',
-            width:"10rem",
+            width:"25rem",
             dataIndex: 'roleName',
             render: (text,record) => {
-                let {updateKey,updateData} = this.state;
+                let {inputRoleUserId} = this.state;
+                const roleNameElements = [];
+                let colorIndex;
+                record.sysRoleList.forEach((item, index) => {
+                    colorIndex = Math.floor((Math.random()*10));
+                    roleNameElements.push(<Tag key={index} onClose={(e)=>{this.deleteConUserRole(item,record,e)}} closable color={colors[colorIndex]}>{item.name}</Tag>)
+                })
+                let roleInput = inputRoleUserId === record.key?
+                    <CommonRoleSelect key="ggg" selectType="allRole" style={{width:"8rem"}} getValue={insertConUserRole}/>
+                    :<Tag key="gg"
+                          onClick={()=>this.setState({inputRoleUserId:record.key})}
+                          style={{ background: '#fff', borderStyle: 'dashed' }}
+                    >
+                        <Icon type="plus" /> 添加新的角色
+                    </Tag>
+                roleNameElements.push(roleInput);
                 //修改
-                return (record.key===updateKey?
-                    <Input onChange={(e)=> {
-                        updateData[0]=e.target.value;
-                        this.setState({
-                            updateData: updateData
-                        })
-                    }} prefix={<Icon type="team" style={{ fontSize: 13 }} />} placeholder="角色名称" value={updateData[0]===null?text:updateData[0]}/>
-                    :<span>管理员</span>)
+                return (
+                    <div>
+                        {roleNameElements}
+                    </div>
+                )
             },
         },{
             title: '账号',
@@ -383,7 +434,7 @@ export default class EditableTable extends React.Component {
             },
         },{
             title: '密码',
-            width:"35rem",
+            width:"10rem",
             dataIndex: 'password',
             render: (text,record) => {
                 let {updateKey,updateData} = this.state;
@@ -395,7 +446,7 @@ export default class EditableTable extends React.Component {
                             updateData: updateData
                         })
                     }} prefix={<Icon type="team" style={{ fontSize: 13 }} />} placeholder="密码" value={updateData[2]}/>
-                    :<span>{text}</span>)
+                    :<span>***</span>)
             },
         },{
             title: '创建日期',
@@ -467,7 +518,11 @@ export default class EditableTable extends React.Component {
                 break;
                 case adminTab:
                     insertUrl="/managementApi/insertAdmin";
-                    data={"roleName":insertData[0],"accountNum":insertData[1],"password":insertData[2]}
+                    let roleIdList=[];
+                    this.state.roleSelectData.forEach((item,index)=>{
+                        roleIdList.push(item.key);
+                    })
+                    data={"sysRoleIds":JSON.stringify(roleIdList),"accountNum":insertData[1],"password":insertData[2]}
                     break;
                 default:insertUrl=null;break;
             }
@@ -475,7 +530,6 @@ export default class EditableTable extends React.Component {
         }
         //取消
         const handleCancel = (e) => {
-            console.log(e);
             this.setState({
                 visible: false,
                 insertType:0,
@@ -483,11 +537,26 @@ export default class EditableTable extends React.Component {
             });
 
         }
+        const insertConUserRole=(value,option)=>{
+            const {inputRoleUserId} = this.state;
+            let roleId = value.key;
+            let data={
+                userId:inputRoleUserId,
+                roleId:roleId
+            }
+            console.log(data);
+            this.abstractPost("/managementApi/insertConUserRole",data);
+        }
+        const getSelectValue=(value)=>{
+            this.setState({
+                roleSelectData:value
+            })
+        }
         //模态框列
         const InputMap=columns.map((item,index)=>{
             let title = item.title;
             let {insertData} = this.state;
-            if(title!=="创建日期"&&title!=="最后登录日期"&&title!=="设置"&&title!=="最后修改日期") {
+            if(title!=="创建日期"&&title!=="最后登录日期"&&title!=="设置"&&title!=="最后修改日期"&&title!=="角色名称") {
                 return (<div key={index} style={{width:'30rem',height:'3rem'}}>
                     <div style={{float:'left',width:'5rem',height:'0.5rem',lineHeight:'2rem'}}>{title+" :"}</div>
                     <Input style={{float:'left',width:'23rem'}}
@@ -503,8 +572,18 @@ export default class EditableTable extends React.Component {
                     />
                 </div>)
             }
+            if(title==="角色名称"){
+                return (
+                    <div key={index} style={{width:'30rem',height:'3rem'}}>
+                        <div style={{float:'left',width:'8rem',height:'0.5rem',lineHeight:'2rem'}}>选择基础角色 :</div>
+                        <CommonMultiSelect style={{float:'left',width:'20rem'}} getValue={getSelectValue} selectType="roleSelect"/>
+                    </div>
+                )
+            }
             return null;
         })
+
+
 
 
 
