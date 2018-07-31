@@ -1,16 +1,38 @@
 import React from 'react';
 import { Layout, Table } from 'antd';
-import moment from 'moment';
 import {commomAxios} from '../../util/axios'
 import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
+import history from '../../history'
+import global from "../../constant";
+import timeUtil from '../../util/timeUtil'
 const { Content } = Layout;
 
 
+//项目名
+let projectName= global.projectName;
 export default class ImageArticleConsult extends React.Component {
 
     state={
         imageArticleData: [],
         consultData: [],
+        pageNum:1,
+        loading:true,
+        pagination:{
+            onChange:(page,pageSize)=>{
+            let pager = { ...this.state.pagination };
+            const {pageNum}=this.state;
+            pager.current = page;
+            commomAxios.get(`/imageArticle/listImageArticle/${pageNum}`).then((res)=>{
+                let data = res.data.data;
+                this.setState({
+                    imageArticleData: data.list,
+                    loading:false,
+                    pagination: pager,
+                })
+
+            })
+        }
+        }
     };
 
     componentWillMount () {
@@ -18,8 +40,22 @@ export default class ImageArticleConsult extends React.Component {
     };
 
     componentDidMount =()=> {
-        commomAxios.get("/imageArticle/listImageArticle").then(data => {
-                this.setState({ imageArticleData: data.data });
+        let {pagination}=this.state;
+        commomAxios.get("/imageArticle/listImageArticle/1").then((res)=> {
+            let data=res.data.data;
+            console.log(data);
+            //数据总数
+            pagination.total = data.total;
+            //每页条数
+            pagination.pageSize = data.pageSize;
+            //当前页数
+            pagination.current = data.pageNum;
+            pagination.lastPage = data.lastPage;
+                this.setState({
+                    imageArticleData: data.list ,
+                    pagination,
+                    loading:false,
+                });
             })
     };
 
@@ -45,10 +81,10 @@ export default class ImageArticleConsult extends React.Component {
                             }
                         }
                     },
-                    { title: '咨询时间', dateIndex: 'publishDate', key: 'publishDate', render: text => <div>{moment(text * 1000).format("YYYY-MM-DD")}</div>},
                 ];
                 return(
                     <Table
+                        loading={this.state.loading}
                         columns={columns}
                         dataSource={this.state.consultData}
                         pagination={false}
@@ -57,11 +93,29 @@ export default class ImageArticleConsult extends React.Component {
             };
             const columns = [
                 { title: '标题', dataIndex: 'title', key: 'title'},
-                { title: '内容', dataIndex: 'content', key: 'content'},
+                { title: '发布者', dataIndex: 'publisherName', key: 'publisherName'},
+                { title: '浏览次数', dataIndex: 'browseCount', key: 'browseCount'},
                 { title: '点赞次数', dataIndex: 'admireCount', key: 'admireCount'},
+                { title: '发布时间', dateIndex: 'publishDate', key: 'publishDate', render: (record) => {
+                    return(
+                        <div>{timeUtil.formatDateTime(record.publishDate)}</div>
+                    )}},
+                { title: '详情', dataIndex: 'details', key: 'details',
+                    render:(text,record)=>{
+                     let path={
+                         pathname:`/${projectName}-extra/article`,
+                         state:record
+                     }
+                        return(
+                            <a target="_blank" onClick={()=>{history.push(path)}}>详情</a>
+                        )
+                    }
+                },
             ];
             return (
                 <Table
+                    loading={this.state.loading}
+                    rowKey={record => record.id}
                     dataSource={this.state.imageArticleData}
                     columns={columns}
                     expandedRowRender={expandRowRender}

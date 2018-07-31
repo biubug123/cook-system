@@ -1,16 +1,38 @@
 import React from 'react';
 import { Layout, Table } from 'antd';
-import moment from 'moment';
+import timeUtil from '../../util/timeUtil'
 import {commomAxios} from '../../util/axios'
 import PublicBreadcrumb from '../../component/public/PublicBreadcrumb'
+import history from "../../history";
+import global from "../../constant";
 const { Content } = Layout;
 
 
+//项目名
+let projectName= global.projectName;
 export default class VideoConsult extends React.Component {
 
     state={
         videoData: [],
         consultData: [],
+        pageNum:1,
+        loading:true,
+        pagination:{
+            onChange:(page,pageSize)=>{
+                let pager = { ...this.state.pagination };
+                const {pageNum}=this.state;
+                pager.current = page;
+                commomAxios.get(`/imageArticle/listImageArticle/${pageNum}`).then((res)=>{
+                    let data = res.data.data;
+                    this.setState({
+                        videoData: data.list,
+                        loading:false,
+                        pagination: pager,
+                    })
+
+                })
+            }
+        }
     };
 
     componentWillMount () {
@@ -18,16 +40,30 @@ export default class VideoConsult extends React.Component {
     };
 
     componentDidMount =()=> {
-        commomAxios.get("/videoArticle/listVideoArticle")
-            .then(data => {
-                this.setState({ videoData: data.data });
+        let {pagination}=this.state;
+        commomAxios.get("/videoArticle/listVideoArticle/1")
+            .then(res => {
+                let data=res.data.data;
+                console.log(data);
+                //数据总数
+                pagination.total = data.total;
+                //每页条数
+                pagination.pageSize = data.pageSize;
+                //当前页数
+                pagination.current = data.pageNum;
+                pagination.lastPage = data.lastPage;
+                this.setState({
+                    videoData: data.list ,
+                    pagination,
+                    loading:false,
+                });
             })
     };
 
     onExpand = (expanded, record) => {
-        commomAxios.get(`/system/listConsult?articleId=${record.id}&articleType=${1}`)
+        commomAxios.get(`/system/listConsult?articleId=${record.id}&articleType=${0}`)
             .then(data => {
-                this.setState({ consultData: data.data });
+                this.setState({consultData: data.data});
             })
     }
 
@@ -46,7 +82,6 @@ export default class VideoConsult extends React.Component {
                             }
                         }
                     },
-                    { title: '咨询时间', dateIndex: 'publishDate', key: 'publishDate', render: text => <div>{moment(text * 1000).format("YYYY-MM-DD")}</div>},
                 ];
                 return(
                     <Table
@@ -58,13 +93,27 @@ export default class VideoConsult extends React.Component {
             };
             const columns = [
                 { title: '标题', dataIndex: 'title', key: 'title'},
-                { title: '播放次数', dataIndex: 'playCount', key: 'playCount'},
+                { title: '发布者', dataIndex: 'publisherName', key: 'publisherName'},
+                { title: '浏览次数', dataIndex: 'browseCount', key: 'browseCount'},
                 { title: '点赞次数', dataIndex: 'admireCount', key: 'admireCount'},
-                { title: '视频地址', dataIndex: 'videoUrl', key: 'videoUrl', render: text => <a>{text}</a>},
+                { title: '发布时间', dateIndex: 'publishDate', key: 'publishDate', render: (record) => <div>{timeUtil.formatDateTime(record.publishDate)}</div>},
+                { title: '详情', dataIndex: 'details', key: 'details',
+                    render:(text,record)=>{
+                        let path={
+                            pathname:`/${projectName}-extra/article`,
+                            state:record
+                        }
+                        return(
+                            <a target="_blank" onClick={()=>{history.push(path)}}>详情</a>
+                        )
+                    }
+                }
             ];
             return (
                 <Table
+                    loading={this.state.loading}
                     dataSource={this.state.videoData}
+                    rowKey={record => record.id}
                     columns={columns}
                     expandedRowRender={expandRowRender}
                     onExpand={this.onExpand}

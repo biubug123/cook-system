@@ -2,6 +2,7 @@ import React from 'react'
 import {Route,Router,Redirect,Switch} from 'react-router-dom'
 import Container from './container/Container'
 import LoginPage from './container/LoginPage'
+import Article from './component/public/Article'
 import global from './constant';
 
 //组件拦截
@@ -19,6 +20,7 @@ export default class RouterMap extends React.Component{
 				<Switch>
                     <Route path={`/${projectName}/login`} component={(LoginPage)}/>
                     <Route path={`/${projectName}`} component={requireAuthentication(Container)}/>
+                    <Route path={`/${projectName}-extra/article`} component={requireAuthentication(Article)}/>
 					<Redirect to={`/${projectName}`}/>
 				</Switch>
 			</Router>
