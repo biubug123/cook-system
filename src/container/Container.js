@@ -12,9 +12,11 @@ import Recruit from './table/Recruit'
 import global from '../constant';
 import VideoConsult from "./table/VideoArticleConsult";
 import ImageArticleConsult from "./table/ImageArticleConsult";
+import PushList from './table/PushList';
 //发布
 import Advertisement from './release/Advertisement'
 import Information from "./release/Information";
+import StepForm from './release/stepForm/index';
 //manage
 import Administrator from './manage/Administrator'
 import User from './manage/User'
@@ -99,6 +101,11 @@ export default class Container extends React.Component {
                     "label": "招聘",
                     "component":Recruit
                 },{
+                    "ItemKey": "pushList",
+                    "url": `/${projectName}/table/pushList`,
+                    "label": "推送信息",
+                    "component":PushList
+                },{
                     "ItemKey": "imageArticleConsult",
                     "url": `/${projectName}/table/imageArticleConsult`,
                     "label": "图文资讯",
@@ -108,7 +115,7 @@ export default class Container extends React.Component {
                     "url": `/${projectName}/table/videoConsult`,
                     "label": "视频资讯",
                     "component":VideoConsult
-                }]
+                },]
             }, {
                 "IconType":"layout",
                 "menuLabel":"发布",
@@ -122,6 +129,11 @@ export default class Container extends React.Component {
                     "url": `/${projectName}/release/information`,
                     "label": "资讯",
                     "component":Information
+                },{
+                    "ItemKey": "messagePush",
+                    "url": `/${projectName}/release/messagePush`,
+                    "label": "消息推送",
+                    "component":StepForm
                 }]
             },{
             "IconType":"setting",

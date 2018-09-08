@@ -79,26 +79,14 @@ class Hunt extends React.Component {
         this.setState({ selectedRowKeys });
     };
 
+    buildParam = (params) => {
+        return Object.keys(params).filter(key => params[key]).map(key => `${key}=${params[key]}`).join(`&`);
+    }
+
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            if(values.userName === undefined && values.workArea === undefined) {
-                commomAxios.get(`/system/listHunt`)
-                    .then(data =>{
-                        this.setState({ dataSource: data.data });
-                    })
-            } else if(values.userName !== undefined && values.workArea === undefined) {
-                commomAxios.get(`/system/listHunt?userName=${values.userName}`)
-                    .then(data =>{
-                        this.setState({ dataSource: data.data });
-                    })
-            }else if(values.userName === undefined && values.workArea !== undefined) {
-                commomAxios.get(`/system/listHunt?workArea=${values.workArea}`)
-                    .then(data =>{
-                        this.setState({ dataSource: data.data });
-                    })
-            }
-            commomAxios.get(`/system/listHunt?userName=${values.userName}&workArea=${values.workArea}`)
+            commomAxios.get(`system/listHunt?${this.buildParam(values)}`)
                 .then(data =>{
                     this.setState({ dataSource: data.data });
                 })
@@ -112,7 +100,9 @@ class Hunt extends React.Component {
                 <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
                     <Col md={8} sm={24}>
                         <FormItem label="规则编号">
-                            {getFieldDecorator('no')(<Input placeholder="请输入" />)}
+                            {getFieldDecorator('no')(
+                                <Input placeholder="请输入" />
+                            )}
                         </FormItem>
                     </Col>
                     <Col md={8} sm={24}>
@@ -156,7 +146,6 @@ class Hunt extends React.Component {
         };
         const { getFieldDecorator } = this.props.form;
 
-
         return (
 
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
@@ -190,7 +179,6 @@ class Hunt extends React.Component {
                                         <Input />
                                     )}
                                 </FormItem>
-
                             </Col>
                             <Col span={6} style={{ textAlign: 'right', marginTop: '40px' }}>
                                 <Button type="primary" htmlType="submit">查询</Button>

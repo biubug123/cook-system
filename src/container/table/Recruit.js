@@ -82,30 +82,18 @@ class Recruit extends React.Component {
         this.setState({ selectedRowKeys });
     }
 
+    buildParam = (params) => {
+        return Object.keys(params).filter(key => params[key]).map(key => `${key}=${params[key]}`).join(`&`);
+    }
+
     handleSearch = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            if(values.jobName === undefined && values.publisherName === undefined) {
-                commomAxios.get(`/system/listRecruit`)
-                    .then(data =>{
-                        this.setState({ dataSource: data.data });
-                    })
-            } else if(values.jobName !== undefined && values.publisherName === undefined) {
-                commomAxios.get(`/system/listRecruit?jobName=${values.jobName}`, {method: 'GET'})
-                    .then(data =>{
-                        this.setState({ dataSource: data.data });
-                    })
-            }else if(values.jobName === undefined && values.publisherName !== undefined) {
-                commomAxios.get(`/system/listRecruit?publisherName=${values.publisherName}`, {method: 'GET'})
-                    .then(data =>{
-                        this.setState({ dataSource: data.data });
-                    })
-            }
-            commomAxios.get(`/system/listRecruit?jobName=${values.jobName}&publisherName=${values.publisherName}`, {method: 'GET'})
-                .then(data =>{
-                    this.setState({ dataSource: data.data });
+            commomAxios.get(`/system/listRecruit?${this.buildParam(values)}`)
+                .then(data => {
+                    this.setState({dataSource: data.data});
                 })
-        });
+        })
     }
 
     handleReset = () => {

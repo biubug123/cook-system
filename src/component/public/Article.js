@@ -37,7 +37,7 @@ export default class  extends React.Component {
     };
 
     requestGet=()=>{
-        let {commentData,commentPageNum,showLoadingMore}=this.state;
+        let {commentPageNum,showLoadingMore}=this.state;
         let {articleId}=this.props.location.state;
         commomAxios.get(`/system/commentList/${articleId}/${commentPageNum}`).then((res)=>{
             let data=res.data.data;

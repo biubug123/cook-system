@@ -1,5 +1,4 @@
 import React from 'react'
-import history from '../history'
 
 export default function requireAuthentication(Component) {
     // 组件有已登陆的模块 直接返回 (防止从新渲染)

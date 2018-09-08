@@ -4,6 +4,8 @@ import Container from './container/Container'
 import LoginPage from './container/LoginPage'
 import Article from './component/public/Article'
 import global from './constant';
+import zhCN from 'antd/lib/locale-provider/zh_CN'
+import { LocaleProvider } from 'antd';
 
 //组件拦截
 import requireAuthentication from './util/authenticated'
@@ -16,14 +18,16 @@ export default class RouterMap extends React.Component{
 		//项目名
 		let projectName= global.projectName;
 		return(
-			<Router history={history}>
-				<Switch>
-                    <Route path={`/${projectName}/login`} component={(LoginPage)}/>
-                    <Route path={`/${projectName}`} component={requireAuthentication(Container)}/>
-                    <Route path={`/${projectName}-extra/article`} component={requireAuthentication(Article)}/>
-					<Redirect to={`/${projectName}`}/>
-				</Switch>
-			</Router>
+            <LocaleProvider locale={zhCN}>
+				<Router history={history}>
+					<Switch>
+						<Route path={`/${projectName}/login`} component={(LoginPage)}/>
+						<Route path={`/${projectName}`} component={requireAuthentication(Container)}/>
+						<Route path={`/${projectName}-extra/article`} component={requireAuthentication(Article)}/>
+						<Redirect to={`/${projectName}`}/>
+					</Switch>
+				</Router>
+			</LocaleProvider>
 		)
 	}
 }
